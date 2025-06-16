@@ -10,9 +10,9 @@ const {
 const auth = require("../middleware/authMiddleware");
 
 router.post("/register", createAdmin);
+router.post("/login", auth, loginAdmin);
 router.get("/getadmin", auth, getAdmin);
 router.get("/getuserasadmin", auth, getUserAsAdmin);
-router.post("/login", auth, loginAdmin);
 router.post("/verify", auth, UserVerify);
 
 module.exports = router;

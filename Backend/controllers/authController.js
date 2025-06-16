@@ -101,4 +101,32 @@ const getProfile = async (req, res) => {
   }
 };
 
-module.exports = { register, getProfile, login };
+// Logout Controller
+const logout = async (req, res) => {
+  try {
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "Strict",
+    });
+    res.status(200).json({ message: "Logout successful" });
+  } catch (err) {
+    res.status(500).json({ message: "Error during logout" });
+  }
+};
+
+// Get Current Logged-in User
+const getCurrentUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id).select("-password");
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ user });
+  } catch (err) {
+    res.status(500).json({ message: "Error fetching current user" });
+  }
+};
+
+module.exports = { register, getProfile, login, logout, getCurrentUser };
