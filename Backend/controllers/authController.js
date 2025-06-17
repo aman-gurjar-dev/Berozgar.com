@@ -79,15 +79,16 @@ const login = async (req, res) => {
     });
 
     res
+      .status(200)
       .cookie("token", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: "Strict",
         maxAge: 24 * 60 * 60 * 1000,
       })
-      .json({ message: "Login successful" });
+      .json({ message: "Login successful", user });
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error", err });
   }
 };
 
