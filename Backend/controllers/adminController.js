@@ -115,10 +115,26 @@ const UserVerify = async (req, res) => {
   }
 };
 
+// getNotVerifyedUser
+
+const getNotVerifyedUser = async (req, res) => {
+  try {
+    const users = await UserModel.find({ isVerified: false });
+
+    res.status(200).json({ message: "Not verifyed User fetch Succes", users });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Error in fetching not verifyed users",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createAdmin,
   getAdmin,
   loginAdmin,
   getUserAsAdmin,
   UserVerify,
+  getNotVerifyedUser,
 };

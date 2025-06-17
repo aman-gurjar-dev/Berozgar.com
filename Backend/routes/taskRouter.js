@@ -8,12 +8,14 @@ const {
   getTaskById,
   updateTask,
   deleteTask,
+  getMyTask
 } = require("../controllers/taskController");
 
 // Auth required
 router.post("/", auth, createTask);
 router.get("/", auth, getAllTasks);
 router.get("/:id", auth, getTaskById);
+router.get("/user/getmytask", auth, getMyTask);
 router.put("/:id", auth, updateTask);
 router.delete("/:id", auth, deleteTask);
 

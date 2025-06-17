@@ -116,10 +116,34 @@ const deleteTask = async (req, res) => {
   }
 };
 
+const getMyTask = async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.user._id).populate("posts");
+
+    if (!user || !user.posts || user.posts.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No tasks found. Please upload a task." });
+    }
+
+    res
+      .status(200)
+      .json({
+        message: "All your tasks fetched successfully!",
+        tasks: user.posts,
+      });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Error fetching your tasks", error: err.message });
+  }
+};
+
 module.exports = {
   createTask,
   getAllTasks,
   getTaskById,
   updateTask,
   deleteTask,
+  getMyTask,
 };
