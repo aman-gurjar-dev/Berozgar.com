@@ -16,13 +16,17 @@ const app = express();
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.CLIENT_URL, 
+    origin: process.env.CLIENT_URL,
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   })
 );
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("Welcome to Berozgar.com API");
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/task", taskRoutes);

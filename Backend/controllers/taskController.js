@@ -40,20 +40,29 @@ const createTask = async (req, res) => {
 // Get all Tasks (optionally filter by status/category)
 const getAllTasks = async (req, res) => {
   try {
+    const { city, category, status, sort } = req.body; // ✅ from body now
+
     const filters = {};
 
-    if (req.query.status) filters.status = req.query.status;
-    if (req.query.category) filters.category = req.query.category;
+    if (city) filters["location.city"] = city;
+    if (category) filters.category = category;
+    if (status) filters.status = status;
 
-    const tasks = await TaskModel.find(filters).populate(
-      "createdBy",
-      "name role"
-    );
+    let query = TaskModel.find(filters).populate("createdBy", "name role");
+
+    if (sort === "newest") query = query.sort({ createdAt: -1 });
+    else if (sort === "oldest") query = query.sort({ createdAt: 1 });
+    else if (sort === "price_low") query = query.sort({ price: 1 });
+    else if (sort === "price_high") query = query.sort({ price: -1 });
+
+    const tasks = await query;
+
     res.json(tasks);
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Error fetching tasks", error: err.message });
+    res.status(500).json({
+      message: "Error fetching tasks",
+      error: err.message,
+    });
   }
 };
 
@@ -126,12 +135,10 @@ const getMyTask = async (req, res) => {
         .json({ message: "No tasks found. Please upload a task." });
     }
 
-    res
-      .status(200)
-      .json({
-        message: "All your tasks fetched successfully!",
-        tasks: user.posts,
-      });
+    res.status(200).json({
+      message: "All your tasks fetched successfully!",
+      tasks: user.posts,
+    });
   } catch (err) {
     res
       .status(500)

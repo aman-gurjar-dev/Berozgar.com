@@ -13,7 +13,7 @@ const {
 
 // Auth required
 router.post("/", auth, createTask);
-router.get("/", auth, getAllTasks);
+router.post("/getalltasks", auth, getAllTasks);
 router.get("/:id", auth, getTaskById);
 router.get("/user/getmytask", auth, getMyTask);
 router.put("/:id", auth, updateTask);

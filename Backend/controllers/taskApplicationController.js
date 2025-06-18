@@ -7,6 +7,11 @@ const applyForTask = async (req, res) => {
     const { taskId, message } = req.body;
     const applicantId = req.user._id;
 
+    const task = await Task.findOne({ _id: taskId });
+    if (task.assignedTo !== null) {
+      return res.status(404).json({ message: "Task Already Assigned !!!" });
+    }
+
     const alreadyApplied = await TaskApplication.findOne({
       task: taskId,
       applicant: applicantId,
@@ -35,38 +40,33 @@ const applyForTask = async (req, res) => {
 // Approve a task application
 const approveApplication = async (req, res) => {
   try {
-    const { applicationId, approval } = req.body;
+    const { applicationId } = req.body;
 
-    const application = await TaskApplication.findById({
-      application: applicationId,
+    const application = await TaskApplication.findOne({
+      applicant: applicationId,
     });
-    if (!application || application.status !== "pending") {
-      return res
-        .status(400)
-        .json({ message: "Invalid or already handled application." });
+
+    if (!application) {
+      return res.status(404).json({ message: "Application not found." });
+    }
+
+    if (application.status !== "pending") {
+      return res.status(400).json({ message: "Application already handled." });
     }
 
     // Approve this application
-    if (approval == true) {
-      application.status = "approved";
-      await application.save();
-    }
+    application.status = "approved";
+    await application.save();
 
-    // Reject others
-    else {
-      await TaskApplication.updateMany(
-        { task: application.task, _id: { $ne: application._id } },
-        { $set: { status: "rejected" } }
-      );
+    // Reject other applications for the same task
+    await TaskApplication.updateMany(
+      { task: application.task, _id: { $ne: application._id } },
+      { $set: { status: "rejected" } }
+    );
 
-      return res.status(200).json({
-        message: "Application rejected, others have been updated",
-      });
-    }
-
-    // Assign user to task
-    const updatedTask = await Task.findByIdAndUpdate(
-      application.task,
+    // Assign user to the task and update task status
+    const updatedTask = await Task.findOneAndUpdate(
+      { _id: application.task },
       {
         assignedTo: application.applicant,
         status: "in-progress",
@@ -74,10 +74,12 @@ const approveApplication = async (req, res) => {
       { new: true }
     );
 
-    res
-      .status(200)
-      .json({ message: "Application approved", task: updatedTask });
+    return res.status(200).json({
+      message: "Application approved and task updated",
+      task: updatedTask,
+    });
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Error approving application", error });
   }
 };
@@ -96,8 +98,35 @@ const getTaskApplications = async (req, res) => {
   }
 };
 
+// Reject a specific application
+const rejectApplication = async (req, res) => {
+  try {
+    const { applicationId } = req.body;
+
+    const application = await TaskApplication.findOne({
+      applicant: applicationId,
+    });
+
+    if (!application) {
+      return res.status(404).json({ message: "Application not found." });
+    }
+
+    if (application.status !== "pending") {
+      return res.status(400).json({ message: "Application already handled." });
+    }
+
+    application.status = "rejected";
+    await application.save();
+
+    res.status(200).json({ message: "Application rejected successfully." });
+  } catch (error) {
+    res.status(500).json({ message: "Error rejecting application", error });
+  }
+};
+
 module.exports = {
   applyForTask,
   approveApplication,
   getTaskApplications,
+  rejectApplication,
 };

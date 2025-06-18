@@ -6,7 +6,7 @@ const UserModel = require("../models/UserModel");
 
 // register
 const register = async (req, res) => {
-  const { name, email, password, phone, poster, bio, skills, location } =
+  const { name, email, password, phone, role, bio, skills, location } =
     req.body;
 
   try {
@@ -21,7 +21,7 @@ const register = async (req, res) => {
       email,
       password: hashed,
       phone,
-      poster,
+      role,
       bio,
       skills,
       location,
