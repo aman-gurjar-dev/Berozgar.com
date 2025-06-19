@@ -130,4 +130,15 @@ const getCurrentUser = async (req, res) => {
   }
 };
 
-module.exports = { register, getProfile, login, logout, getCurrentUser };
+const protectedRoute = (req, res) => {
+  res.json({ message: "Access granted", user: req.user });
+};
+
+module.exports = {
+  register,
+  getProfile,
+  login,
+  logout,
+  getCurrentUser,
+  protectedRoute,
+};
