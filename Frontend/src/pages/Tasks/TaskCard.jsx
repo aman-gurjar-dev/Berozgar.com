@@ -15,7 +15,7 @@ const TaskCard = ({ task }) => (
     <h3 className="font-semibold text-lg mt-2">{task.title}</h3>
     <p className="text-gray-500 flex items-center text-sm mt-1">
       <FaMapMarkerAlt className="mr-1" />
-      Indore
+      {task.location.city}
     </p>
     <p className="mt-1 font-medium">₹{task.price}</p>
     <Link to={`/task/${task._id}`}>

@@ -54,23 +54,6 @@ const TaskList = () => {
   return (
     <div className="min-h-screen bg-[#e8e2fa] py-10 px-4 lg:px-20">
       {/* Navbar */}
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-xl font-bold text-[#5d2fff]">Berozgar.com</h1>
-        <div className="space-x-8 hidden md:flex">
-          {["Home", "About", "Contact", "Features"].map((link, i) => (
-            <a
-              key={i}
-              href="#"
-              className="font-medium text-black hover:underline"
-            >
-              {link}
-            </a>
-          ))}
-        </div>
-        <button className="px-4 py-2 border border-black rounded-full shadow-md hover:bg-black hover:text-white transition">
-          Sign Up
-        </button>
-      </div>
 
       <h2 className="text-3xl font-bold text-center mb-8">Explore Tasks</h2>
 
