@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const TaskPagination = ({ currentPage, totalPages, setCurrentPage }) => {
   const goToPrevPage = () => {
@@ -24,39 +25,50 @@ const TaskPagination = ({ currentPage, totalPages, setCurrentPage }) => {
   }
 
   return (
-    <div className="flex justify-center items-center mt-10 space-x-4 text-sm">
-      <button
+    <motion.div
+      className="flex justify-center items-center mt-10 space-x-4 text-sm"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.button
         onClick={goToPrevPage}
         disabled={currentPage === 1}
-        className={`hover:underline ${
+        whileHover={{ scale: currentPage === 1 ? 1 : 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`hover:underline transition ${
           currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
         }`}
       >
         &larr; Previous
-      </button>
+      </motion.button>
 
       {pages.map((page) => (
-        <span
+        <motion.span
           key={page}
           onClick={() => setCurrentPage(page)}
-          className={`w-8 h-8 flex items-center justify-center rounded-full cursor-pointer ${
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          className={`w-8 h-8 flex items-center justify-center rounded-full cursor-pointer transition ${
             currentPage === page ? "bg-[#5d2fff] text-white" : "hover:underline"
           }`}
         >
           {page}
-        </span>
+        </motion.span>
       ))}
 
-      <button
+      <motion.button
         onClick={goToNextPage}
         disabled={currentPage === totalPages}
-        className={`hover:underline ${
+        whileHover={{ scale: currentPage === totalPages ? 1 : 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        className={`hover:underline transition ${
           currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
         }`}
       >
         Next &rarr;
-      </button>
-    </div>
+      </motion.button>
+    </motion.div>
   );
 };
 

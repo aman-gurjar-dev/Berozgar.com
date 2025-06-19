@@ -3,6 +3,7 @@ import axiosInstance from "../../config/axios";
 import TaskCard from "./TaskCard";
 import TaskFilters from "./TaskFilters";
 import TaskPagination from "./TaskPagination";
+import { motion } from "framer-motion";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -19,6 +20,7 @@ const TaskList = () => {
       ...prev,
       [name]: value,
     }));
+    setCurrentPage(1); // reset to first page on filter change
   };
 
   const tasksPerPage = 4;
@@ -53,23 +55,58 @@ const TaskList = () => {
 
   return (
     <div className="min-h-screen bg-[#e8e2fa] py-10 px-4 lg:px-20">
-      {/* Navbar */}
+      <motion.h2
+        className="text-3xl font-bold text-center mb-8"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        Explore Tasks
+      </motion.h2>
 
-      <h2 className="text-3xl font-bold text-center mb-8">Explore Tasks</h2>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        <TaskFilters onFilterChange={handleFilterChange} />
+      </motion.div>
 
-      <TaskFilters onFilterChange={handleFilterChange} />
-
-      <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <motion.div
+        className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: {},
+          visible: {
+            transition: { staggerChildren: 0.1 },
+          },
+        }}
+      >
         {currentTasks.map((task) => (
-          <TaskCard key={task._id} task={task} />
+          <motion.div
+            key={task._id}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+            }}
+          >
+            <TaskCard task={task} />
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
-      <TaskPagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        setCurrentPage={setCurrentPage}
-      />
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.2 }}
+      >
+        <TaskPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          setCurrentPage={setCurrentPage}
+        />
+      </motion.div>
     </div>
   );
 };

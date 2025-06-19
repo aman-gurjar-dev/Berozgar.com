@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const locationOptions = ["Indore", "Dewas", "Ujjain", "Delhi"];
 
@@ -20,6 +21,20 @@ const categoryOptions = [
   "Photography",
 ];
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+};
+
 const TaskFilters = ({ onFilterChange }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,11 +42,18 @@ const TaskFilters = ({ onFilterChange }) => {
   };
 
   return (
-    <div className="flex flex-wrap gap-4 justify-center mb-10">
-      <select
+    <motion.div
+      className="flex flex-wrap gap-4 justify-center mb-10"
+      variants={containerVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <motion.select
         name="city"
         className="px-4 py-2 rounded-full bg-white border shadow-sm"
         onChange={handleChange}
+        variants={itemVariants}
+        whileHover={{ scale: 1.03 }}
       >
         <option value="">Select City</option>
         {locationOptions.map((city) => (
@@ -39,12 +61,14 @@ const TaskFilters = ({ onFilterChange }) => {
             {city}
           </option>
         ))}
-      </select>
+      </motion.select>
 
-      <select
+      <motion.select
         name="category"
         className="px-4 py-2 rounded-full bg-white border shadow-sm"
         onChange={handleChange}
+        variants={itemVariants}
+        whileHover={{ scale: 1.03 }}
       >
         <option value="">Select Category</option>
         {categoryOptions.map((category) => (
@@ -52,19 +76,21 @@ const TaskFilters = ({ onFilterChange }) => {
             {category}
           </option>
         ))}
-      </select>
+      </motion.select>
 
-      <select
+      <motion.select
         name="sort"
         className="px-4 py-2 rounded-full bg-white border shadow-sm"
         onChange={handleChange}
+        variants={itemVariants}
+        whileHover={{ scale: 1.03 }}
       >
         <option value="newest">Sort by: Newest</option>
         <option value="oldest">Sort by: Oldest</option>
         <option value="price_low">Price: Low to High</option>
         <option value="price_high">Price: High to Low</option>
-      </select>
-    </div>
+      </motion.select>
+    </motion.div>
   );
 };
 
