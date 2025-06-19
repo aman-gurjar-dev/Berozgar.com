@@ -19,10 +19,10 @@ const NoApplications = () => {
   };
 
   const handleAccept = async (applicationId) => {
-    console.log(applicationId);
     try {
       await axiosInstance.post("api/task-applications/approve", {
-        applicationId,
+        applicationId: applicationId.applicant._id,
+        taskId: applicationId.task,
       });
       fetchApplications();
     } catch (error) {
@@ -90,7 +90,7 @@ const NoApplications = () => {
 
               {app.status === "pending" && (
                 <button
-                  onClick={() => handleAccept(app.applicant._id)}
+                  onClick={() => handleAccept(app)}
                   className="text-sm bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 transition"
                 >
                   Accept Application

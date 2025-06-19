@@ -40,10 +40,11 @@ const applyForTask = async (req, res) => {
 // Approve a task application
 const approveApplication = async (req, res) => {
   try {
-    const { applicationId } = req.body;
+    const { applicationId , taskId} = req.body;
 
     const application = await TaskApplication.findOne({
       applicant: applicationId,
+      task: taskId,
     });
 
     if (!application) {

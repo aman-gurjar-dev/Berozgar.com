@@ -1,5 +1,6 @@
 const messageModel = require("../models/messageModel");
 const conversationModel = require("../models/convercationModel");
+const TaskModel = require("../models/TaskModel");
 
 async function sendMessage(req, res) {
   try {
@@ -56,4 +57,23 @@ async function featchAllMessages(req, res) {
   }
 }
 
-module.exports = { sendMessage, featchAllMessages };
+const featchAllUsers = async (req, res) => {
+  try {
+    const users = await TaskModel.find({
+      createdBy: req.user._id,
+      assignedTo: { $ne: null },
+    });
+
+    res.status(200).json({
+      message: "Users fetched successfully",
+      users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal server error. from fetch all users",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = { sendMessage, featchAllMessages, featchAllUsers };

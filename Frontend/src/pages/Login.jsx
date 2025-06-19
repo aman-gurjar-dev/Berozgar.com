@@ -21,7 +21,8 @@ const Login = () => {
         })
         .then((result) => {
           console.log("Login Success:", result.data);
-          navigate("/tasks");
+          if (result.data.user.role === "poster") navigate("/dashboard");
+          else navigate("/tasks");
         })
         .catch((err) => {
           console.error("Login Failed:", err.response?.data || err.message);
