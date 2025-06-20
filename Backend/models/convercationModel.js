@@ -8,6 +8,10 @@ const conversationSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
+    taskId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Task",
+    },
     messageIds: [
       {
         type: mongoose.Schema.Types.ObjectId,

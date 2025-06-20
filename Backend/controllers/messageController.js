@@ -9,7 +9,7 @@ async function sendMessage(req, res) {
     // 1. Create the message
     const newMessage = await messageModel.create({
       senderId: req.user._id,
-      receiverId,
+      reciverId: receiverId,
       message,
     });
 
@@ -76,4 +76,32 @@ const featchAllUsers = async (req, res) => {
   }
 };
 
-module.exports = { sendMessage, featchAllMessages, featchAllUsers };
+async function fetchAllConvercation(req, res) {
+  try {
+    const conversations = await conversationModel
+      .find({
+        participants: req.user._id,
+      })
+      .populate("taskId");
+
+    const tasks = conversations.map((convercation) => convercation.taskId);
+
+    res.status(200).json({
+      message: "Conversations fetched successfully",
+      conversations,
+      tasks,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Internal server error. from fetch all convercation",
+      error: error.message,
+    });
+  }
+}
+
+module.exports = {
+  sendMessage,
+  featchAllMessages,
+  featchAllUsers,
+  fetchAllConvercation,
+};

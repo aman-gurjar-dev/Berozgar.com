@@ -1,5 +1,6 @@
 const TaskApplication = require("../models/ApplicationModel");
 const Task = require("../models/TaskModel");
+const convercationModel = require("../models/convercationModel");
 
 // Apply for a task
 const applyForTask = async (req, res) => {
@@ -40,7 +41,7 @@ const applyForTask = async (req, res) => {
 // Approve a task application
 const approveApplication = async (req, res) => {
   try {
-    const { applicationId , taskId} = req.body;
+    const { applicationId, taskId } = req.body;
 
     const application = await TaskApplication.findOne({
       applicant: applicationId,
@@ -75,9 +76,15 @@ const approveApplication = async (req, res) => {
       { new: true }
     );
 
+    let conversation = await convercationModel.create({
+      taskId: application.task,
+      participants: [req.user._id, application.applicant],
+    });
+
     return res.status(200).json({
       message: "Application approved and task updated",
       task: updatedTask,
+      conversation: conversation,
     });
   } catch (error) {
     console.error(error);
