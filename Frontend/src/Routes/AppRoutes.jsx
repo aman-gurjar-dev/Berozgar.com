@@ -13,13 +13,16 @@ import ContactUs from "../pages/ContectUs";
 import AboutUs from "../pages/AboutUs";
 import Features from "../pages/Features";
 import MyTasks from "../pages/MyTasks";
-import NoApplications from "../pages/NoApplications";
+import ViewApplications from "../pages/ViewApplications";
 import Dashboard from "../Components/Dashboard";
 import DashboardLayout from "../Components/DashboardLayout";
+import Chat from "../pages/Chat";
+import Messege from "../pages/Messege";
 
 const AppRoutes = () => (
   <Routes>
     {/* Public routes */}
+    <Route path="/chat" element={<Chat />} />
     <Route
       path="/"
       element={
@@ -56,15 +59,7 @@ const AppRoutes = () => (
         </ProtectedRoute>
       }
     />
-    <Route
-      path="/postjob"
-      element={
-        <ProtectedRoute>
-          <Navbar />
-          <PostJobView />
-        </ProtectedRoute>
-      }
-    />
+
     <Route
       path="/contact"
       element={
@@ -103,17 +98,7 @@ const AppRoutes = () => (
         </>
       }
     />
-    <Route
-      path="/applications/:taskId"
-      element={
-        <>
-          <ProtectedRoute>
-            <Navbar />
-            <NoApplications />
-          </ProtectedRoute>
-        </>
-      }
-    />
+
     {/* Dashboard layout and nested routes */}
     <Route
       path="/dashboard"
@@ -126,6 +111,19 @@ const AppRoutes = () => (
       <Route index element={<Dashboard />} />
       <Route path="mytasks" element={<MyTasks />} />
       <Route path="postjob" element={<PostJobView />} />
+      <Route path="message" element={<Chat />} />
+
+      <Route
+        path="applications/:taskId"
+        element={
+          <>
+            <ProtectedRoute>
+              <ViewApplications />
+            </ProtectedRoute>
+          </>
+        }
+      />
+
       {/* Add more dashboard child routes as needed */}
     </Route>
   </Routes>

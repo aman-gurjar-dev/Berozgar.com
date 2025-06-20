@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
-    <div className="w-full min-h-screen bg-[#e2ddf5] flex flex-col relative overflow-hidden">
+    <div className="w-full h-[90vh]  bg-[#e2ddf5] flex flex-col relative overflow-hidden">
       {/* Hero Section */}
       <section className="flex flex-col-reverse lg:flex-row items-center justify-between px-6 lg:px-20 py-10 bg-white w-full h-full flex-grow">
         {/* Left Side */}
@@ -34,13 +34,13 @@ const HomePage = () => {
             transition={{ delay: 0.4 }}
           >
             <Link
-              to="/tasks"
+              to="/dashboard"
               className="bg-[#1100D1] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#1100D1]"
             >
               Explore Now
             </Link>
             <Link
-              to="/postjob"
+              to="/dashboard/postjob"
               className="bg-white text-[#1100D1] px-6 py-3 rounded-full font-semibold shadow-md hover:bg-gray-100"
             >
               Post Task
@@ -69,7 +69,7 @@ const HomePage = () => {
 
         {/* Right Side */}
         <motion.div
-          className="w-full lg:w-1/2 flex justify-center mt-10 lg:mt-37 overflow-hidden"
+          className="w-full lg:w-1/3 flex justify-center mt-10 lg:mt-10 overflow-hidden relative top-[10vh]"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.7 }}

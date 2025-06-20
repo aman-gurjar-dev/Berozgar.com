@@ -54,7 +54,7 @@ const TaskList = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#e8e2fa] py-10 px-4 lg:px-20">
+    <div className="h-[90vh] w-full bg-[#e8e2fa] overflow-auto py-10 px-4 lg:px-20">
       <motion.h2
         className="text-3xl font-bold text-center mb-8"
         initial={{ opacity: 0, y: -20 }}

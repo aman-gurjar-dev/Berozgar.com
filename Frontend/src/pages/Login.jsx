@@ -1,17 +1,19 @@
 import React, { useState } from "react";
 import { FaGoogle, FaLinkedinIn } from "react-icons/fa";
 import axiosInstance from "../config/axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setErrorMsg("");
+    setLoading(true);
 
     try {
       await axiosInstance
@@ -27,9 +29,11 @@ const Login = () => {
         .catch((err) => {
           console.error("Login Failed:", err.response?.data || err.message);
           setErrorMsg(err.response?.data?.message || "Login failed");
+          setLoading(false);
         });
     } catch (err) {
       console.log("Error in login ", err);
+      setLoading(false);
     }
   };
 
@@ -78,9 +82,14 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full py-2 rounded-full bg-white text-purple-900 font-semibold shadow-sm hover:bg-purple-800 hover:text-white transition"
+              disabled={loading}
+              className={
+                loading
+                  ? "w-full py-2 rounded-full bg-gray-200 text-purple-900 font-semibold shadow-sm"
+                  : "w-full py-2 rounded-full bg-white text-purple-900 font-semibold shadow-sm hover:bg-purple-800 hover:text-white transition"
+              }
             >
-              Log In
+              {loading ? "Logging You In..." : "Log In"}
             </button>
           </form>
 
@@ -91,15 +100,12 @@ const Login = () => {
           </div>
 
           <div className="flex gap-4 justify-center mb-4">
-            <button className="flex items-center gap-2 px-4 py-2 bg-purple-900 text-white rounded-full">
-              <FaGoogle />
-              <span className="text-sm">Sign in with</span>
-            </button>
-
-            <button className="flex items-center gap-2 px-4 py-2 bg-purple-900 text-white rounded-full">
-              <FaLinkedinIn />
-              <span className="text-sm">Sign in with</span>
-            </button>
+            <Link
+              to="/register"
+              className="flex items-center gap-2 px-4 py-2 bg-purple-900 text-white rounded-full"
+            >
+              <span className="text-sm">Register Now</span>
+            </Link>
           </div>
 
           <div className="text-xs text-center text-gray-500">

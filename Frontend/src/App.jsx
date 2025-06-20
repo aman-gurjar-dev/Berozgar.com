@@ -5,7 +5,9 @@ import Navbar from "./Components/Navbar";
 const App = () => {
   return (
     <>
-      <AppRoutes />;
+      <div className="h-screen w-screen">
+        <AppRoutes />
+      </div>
     </>
   );
 };

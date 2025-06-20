@@ -20,7 +20,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="w-full flex justify-between items-center px-8 py-4 bg-[#e2ddf5]">
+    <nav className="w-full flex h-[10vh] justify-between items-center px-8 py-4 bg-[#e2ddf5]">
       {/* Logo */}
       <motion.div
         className="flex items-center gap-2 text-xl font-bold text-[#2e2e2e]"

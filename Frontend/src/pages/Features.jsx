@@ -28,7 +28,7 @@ const features = [
 
 const Features = () => {
   return (
-    <div className="min-h-screen bg-[#e9e4ff] py-12 px-4 lg:px-20">
+    <div className="h-[90vh]  bg-[#e9e4ff] py-12 px-4 lg:px-20">
       <h1 className="text-4xl font-bold text-center text-[#5d2fff] mb-10">
         Features
       </h1>
