@@ -4,8 +4,8 @@ import deliveryGuy from "../assets/delivery-guy.png";
 import { Link } from "react-router-dom";
 import { UseAuth } from "../context/AuthProvider";
 
-const HomePage = () => {
-  const {authUser, setAuthUser} = UseAuth();
+const Home = () => {
+  const { authUser, setAuthUser } = UseAuth();
   console.log(authUser);
 
   return (
@@ -85,4 +85,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default Home;

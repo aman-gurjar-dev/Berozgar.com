@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import HomePage from "../Pages/Home";
+import Home from "../Pages/Home";
 import Login from "../Pages/Login";
 import RegisterWrapper from "../pages/Register/RegisterWrapper";
 import TaskList from "../pages/Tasks/TaskList";
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
     path: "/",
     element: <RootLayout />, // Includes <Navbar />
     children: [
-      { index: true, element: <HomePage /> },
+      { index: true, element: <Home /> },
       { path: "contact", element: <ContactUs /> },
       { path: "about", element: <AboutUs /> },
       { path: "features", element: <Features /> },
