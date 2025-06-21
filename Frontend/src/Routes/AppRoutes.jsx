@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import Home from "../Pages/Home";
-import Login from "../Pages/Login";
+import Home from "../pages/Home.jsx";
+import Login from "../pages/Login";
 import RegisterWrapper from "../pages/Register/RegisterWrapper";
 import TaskList from "../pages/Tasks/TaskList";
 import TaskDetails from "../pages/Tasks/TaskDetails";
