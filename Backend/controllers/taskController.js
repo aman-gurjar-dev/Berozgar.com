@@ -69,8 +69,6 @@ const getAllTasks = async (req, res) => {
 // Get Single Task by ID
 const getTaskById = async (req, res) => {
   try {
-    console.log(req.params.id);
-
     const task = await TaskModel.findById(req.params.id).populate(
       "createdBy",
       "name"

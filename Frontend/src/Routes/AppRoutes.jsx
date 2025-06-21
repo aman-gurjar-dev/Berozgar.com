@@ -1,5 +1,4 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import HomePage from "../Pages/Home";
 import Login from "../Pages/Login";
 import RegisterWrapper from "../pages/Register/RegisterWrapper";
@@ -17,104 +16,59 @@ import Dashboard from "../Components/Dashboard";
 import DashboardLayout from "../Components/DashboardLayout";
 import Chat from "../pages/Chat";
 import MyApplications from "../pages/MyApplications";
+
+import RootLayout from "./RootLayout";
 import { UseAuth } from "../context/AuthProvider";
 
-const AppRoutes = () => {
-  const { authUser } = UseAuth();
-
-  return (
-    <Routes>
-      {/* Public routes */}
-      <Route path="/chat" element={<Chat />} />
-      <Route
-        path="/"
-        element={
-          <>
-            <Navbar />
-            <HomePage />
-          </>
-        }
-      />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<RegisterWrapper />} />
-
-      <Route
-        path="/task/:id"
-        element={
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />, // Includes <Navbar />
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: "contact", element: <ContactUs /> },
+      { path: "about", element: <AboutUs /> },
+      { path: "features", element: <Features /> },
+      {
+        path: "task/:id",
+        element: (
           <ProtectedRoute>
-            <Navbar />
             <TaskDetails />
           </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/contact"
-        element={
-          <>
-            <Navbar />
-            <ContactUs />
-          </>
-        }
-      />
-      <Route
-        path="/about"
-        element={
-          <>
-            <Navbar />
-            <AboutUs />
-          </>
-        }
-      />
-      <Route
-        path="/features"
-        element={
-          <>
-            <Navbar />
-            <Features />
-          </>
-        }
-      />
-
-      {/* Dashboard layout and nested routes */}
-      <Route
-        path="/dashboard"
-        element={
+        ),
+      },
+      {
+        path: "chat",
+        element: <Chat />,
+      },
+    ],
+  },
+  { path: "login", element: <Login /> },
+  { path: "register", element: <RegisterWrapper /> },
+  {
+    path: "/dashboard",
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      { index: true, element: <Dashboard /> },
+      {
+        path: "applications/:taskId",
+        element: (
           <ProtectedRoute>
-            <DashboardLayout />
+            <ViewApplications />
           </ProtectedRoute>
-        }
-      >
-        <Route index element={<Dashboard />} />
+        ),
+      },
+      { path: "mytasks", element: <MyTasks /> },
+      { path: "postjob", element: <PostJobView /> },
+      { path: "alltasks", element: <TaskList /> },
+      { path: "myapplications", element: <MyApplications /> },
+      { path: "message", element: <Chat /> },
+    ],
+  },
+]);
 
-        {/* Routes only for posters */}
-        {authUser?.role !== "tasker" && (
-          <>
-            <Route path="mytasks" element={<MyTasks />} />
-            <Route path="postjob" element={<PostJobView />} />
-          </>
-        )}
-
-        {/* Routes only for taskers */}
-        {authUser?.role === "tasker" && (
-          <>
-            <Route path="alltasks" element={<TaskList />} />
-            <Route path="myapplications" element={<MyApplications />} />
-            <Route
-              path="applications/:taskId"
-              element={
-                <ProtectedRoute>
-                  <ViewApplications />
-                </ProtectedRoute>
-              }
-            />
-          </>
-        )}
-
-        <Route path="message" element={<Chat />} />
-      </Route>
-    </Routes>
-  );
-};
-
-export default AppRoutes;
+export default router;

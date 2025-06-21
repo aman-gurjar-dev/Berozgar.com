@@ -1,14 +1,15 @@
 import React from "react";
-import AppRoutes from "./Routes/AppRoutes";
-import Navbar from "./Components/Navbar";
+import { RouterProvider } from "react-router-dom";
+import router from "./Routes/AppRoutes"; // import your central router config
+import { AuthContext, AuthProvider } from "./context/AuthProvider.jsx";
 
 const App = () => {
   return (
-    <>
+    <AuthProvider>
       <div className="h-screen w-screen">
-        <AppRoutes />
+        <RouterProvider router={router} />
       </div>
-    </>
+    </AuthProvider>
   );
 };
 

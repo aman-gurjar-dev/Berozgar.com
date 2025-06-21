@@ -135,7 +135,6 @@ const rejectApplication = async (req, res) => {
 //fetch my applications
 const myApplication = async (req, res) => {
   userId = req.user._id;
-  console.log("userId", userId);
 
   try {
     const applications = await TaskApplication.find({ applicant: userId })
