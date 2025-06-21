@@ -14,16 +14,27 @@ connectDB();
 
 const app = express();
 app.use(cookieParser());
+
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  "https://berozgar-two.vercel.app",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin:
-      process.env.CLIENT_URL ||
-      "https://berozgar-two.vercel.app" ||
-      "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
   })
 );
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
