@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaCalendarAlt } from "react-icons/fa";
 import axiosInstance from "../config/axios";
 import { motion } from "framer-motion";
+import { UseAuth } from "../context/AuthProvider";
 
 const categoryOptions = [
   "Cleaning",
@@ -32,6 +33,7 @@ const PostJobForm = () => {
   });
   const [loading, setLoading] = useState(false);
   const [responseMsg, setResponseMsg] = useState("");
+  const { authUser, setAuthUser } = UseAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -139,9 +141,19 @@ const PostJobForm = () => {
           />
         </div>
 
+        {authUser.role === "tasker" ? (
+          <>
+            <h1 className=" text-red-700 relative top-3">
+              You can not Post You are tasker
+            </h1>
+          </>
+        ) : (
+          <></>
+        )}
+
         <button
           onClick={handleSubmit}
-          disabled={loading}
+          disabled={loading || authUser.role === "tasker"}
           className="mt-8 w-full bg-[#1100D1] text-white py-3 rounded-xl font-bold text-lg shadow-md hover:bg-[#0e00aa] disabled:opacity-50 transition"
         >
           {loading ? "Posting..." : "Post Job"}

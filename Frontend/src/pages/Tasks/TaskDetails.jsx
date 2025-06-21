@@ -79,7 +79,7 @@ const TaskDetails = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f8f5ff] py-10 px-6 md:px-20">
+    <div className="h-[90vh] bg-[#f8f5ff] py-20 px-6 md:px-20">
       <motion.div
         className="max-w-3xl mx-auto bg-white shadow-lg rounded-xl p-8"
         initial="hidden"

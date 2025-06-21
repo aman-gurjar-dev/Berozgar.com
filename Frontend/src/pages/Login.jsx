@@ -27,8 +27,7 @@ const Login = () => {
           console.log("Login Success:", result.data);
           setAuthUser(JSON.stringify(result.data.user));
           localStorage.setItem("user", JSON.stringify(result.data.user));
-          if (result.data.user.role === "poster") navigate("/dashboard");
-          else navigate("/tasks");
+          navigate("/dashboard");
         })
         .catch((err) => {
           console.error("Login Failed:", err.response?.data || err.message);

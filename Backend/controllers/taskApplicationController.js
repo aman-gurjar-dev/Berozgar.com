@@ -132,9 +132,29 @@ const rejectApplication = async (req, res) => {
   }
 };
 
+//fetch my applications
+const myApplication = async (req, res) => {
+  userId = req.user._id;
+  console.log("userId", userId);
+
+  try {
+    const applications = await TaskApplication.find({ applicant: userId })
+      .populate("task")
+      .sort({ createdAt: -1 });
+
+    if (!applications || applications.length === 0) {
+      return res.status(404).json({ message: "No applications found." });
+    }
+
+    res.status(200).json({ message: "My applications fetched", applications });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching my applications", error });
+  }
+};
 module.exports = {
   applyForTask,
   approveApplication,
   getTaskApplications,
   rejectApplication,
+  myApplication,
 };

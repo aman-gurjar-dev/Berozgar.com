@@ -1,17 +1,30 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axiosInstance from "../config/axios";
-
-const navItems = [
-  { to: "/dashboard", label: "Dashboard" },
-  { to: "/dashboard/mytasks", label: "My Tasks" },
-  { to: "/dashboard/postjob", label: "Post Task" },
-  { to: "/dashboard/message", label: "Message" },
-];
+import { UseAuth } from "../context/AuthProvider";
 
 const Sidebar = () => {
   const [loggingOut, setLoggingOut] = useState(false);
+  const { authUser, setAuthUser } = UseAuth();
   const navigate = useNavigate();
+
+  let navItems = [];
+
+  if (authUser.role === "poster") {
+    navItems = [
+      { to: "/dashboard", label: "Dashboard" },
+      { to: "/dashboard/mytasks", label: "My Tasks" },
+      { to: "/dashboard/postjob", label: "Post Task" },
+      { to: "/dashboard/message", label: "Message" },
+    ];
+  } else {
+    navItems = [
+      { to: "/dashboard", label: "Dashboard" },
+      { to: "/dashboard/alltasks", label: "Tasks" },
+      { to: "/dashboard/myapplications", label: "My Applications" },
+      { to: "/dashboard/message", label: "Message" },
+    ];
+  }
 
   const handleLogout = async () => {
     setLoggingOut(true);
