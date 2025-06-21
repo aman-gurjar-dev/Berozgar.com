@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
+import { UseAuth } from "../context/AuthProvider";
 
 const ProtectedRoute = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(null);
+  const { authUser, setAuthUser } = UseAuth();
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -13,6 +15,7 @@ const ProtectedRoute = ({ children }) => {
         });
         setIsAuthenticated(true);
       } catch (error) {
+        localStorage.removeItem("user");
         setIsAuthenticated(false);
       }
     };

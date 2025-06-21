@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { FaGoogle, FaLinkedinIn } from "react-icons/fa";
 import axiosInstance from "../config/axios";
 import { useNavigate, Link } from "react-router-dom";
+import { UseAuth } from "../context/AuthProvider";
 
 const Login = () => {
+  const { authUser, setAuthUser } = UseAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
@@ -23,6 +25,8 @@ const Login = () => {
         })
         .then((result) => {
           console.log("Login Success:", result.data);
+          setAuthUser(JSON.stringify(result.data.user));
+          localStorage.setItem("user", JSON.stringify(result.data.user));
           if (result.data.user.role === "poster") navigate("/dashboard");
           else navigate("/tasks");
         })

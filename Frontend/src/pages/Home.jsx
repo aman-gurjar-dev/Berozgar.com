@@ -2,8 +2,12 @@ import React from "react";
 import { motion } from "framer-motion";
 import deliveryGuy from "../assets/delivery-guy.png";
 import { Link } from "react-router-dom";
+import { UseAuth } from "../context/AuthProvider";
 
 const HomePage = () => {
+  const {authUser, setAuthUser} = UseAuth();
+  console.log(authUser);
+
   return (
     <div className="w-screen h-[90vh] overflow-hidden bg-gradient-to-br from-[#f4f2ff] to-[#e2ddf5] flex items-center justify-center">
       <section className="flex flex-col-reverse lg:flex-row items-center justify-between px-6 lg:px-24 py-10 h-full w-full">

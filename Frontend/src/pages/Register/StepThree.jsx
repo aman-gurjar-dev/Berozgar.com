@@ -1,8 +1,11 @@
 import React from "react";
 import axiosInstance from "../../config/axios"; // make sure path is correct
 import { useNavigate } from "react-router-dom";
+import { UseAuth } from "../../context/AuthProvider";
 
 const StepThree = ({ prevStep, formData, updateForm }) => {
+  const { authUser, setAuthUser } = UseAuth();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (["city", "area"].includes(name)) {
@@ -17,6 +20,8 @@ const StepThree = ({ prevStep, formData, updateForm }) => {
     try {
       const res = await axiosInstance.post("/api/auth/register", formData);
       console.log("Registered:", res.data);
+      setAuthUser(JSON.stringify(result.data.user));
+      localStorage.setItem("user", JSON.stringify(result.data.user));
       alert("Registered successfully!");
       navigate("/");
       // Optionally redirect user here

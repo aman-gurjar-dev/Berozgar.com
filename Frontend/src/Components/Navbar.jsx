@@ -1,6 +1,7 @@
 import { NavLink, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import logo from "../assets/logo.png";
+import { UseAuth } from "../context/AuthProvider";
 
 const linkVariants = {
   initial: { opacity: 0, y: -10 },
@@ -12,6 +13,7 @@ const linkVariants = {
 };
 
 const Navbar = () => {
+  const { authUser, setAuthUser } = UseAuth();
   const links = [
     { to: "/", label: "Home" },
     { to: "/about", label: "About" },
@@ -54,21 +56,37 @@ const Navbar = () => {
         ))}
       </motion.ul>
 
-      {/* Sign Up Button */}
-      <motion.div
-        initial={{ x: 20, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ delay: 0.8, duration: 0.4 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.97 }}
-      >
-        <Link
-          to="/register"
-          className="bg-white text-black px-4 py-2 rounded-full font-medium shadow-md hover:bg-gray-100"
-        >
-          Sign Up
-        </Link>
-      </motion.div>
+      {/* Auth Box */}
+      <div className="flex items-center gap-4">
+        {authUser ? (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="flex flex-col text-right"
+          >
+            <span className="text-sm text-gray-600">Welcome Back,</span>
+            <span className="text-md font-semibold text-purple-800">
+              {authUser.name}
+            </span>
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{ x: 20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ delay: 0.8, duration: 0.4 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <Link
+              to="/register"
+              className="bg-white text-black px-4 py-2 rounded-full font-medium shadow-md hover:bg-gray-100"
+            >
+              Sign Up
+            </Link>
+          </motion.div>
+        )}
+      </div>
     </nav>
   );
 };

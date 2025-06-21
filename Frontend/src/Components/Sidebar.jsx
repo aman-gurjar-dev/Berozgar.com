@@ -17,6 +17,7 @@ const Sidebar = () => {
     setLoggingOut(true);
     try {
       await axiosInstance.get("api/auth/logout");
+      localStorage.removeItem("user");
       navigate("/login");
     } catch (err) {
       alert("Logout failed. Please try again.");
