@@ -12,6 +12,17 @@ function Chat() {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [error, setError] = useState("");
   const chatEndRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsOpen(window.innerWidth >= 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     axios
@@ -75,10 +86,19 @@ function Chat() {
   };
 
   return (
-    <div className="flex h-screen w-full ml-[20vw] bg-gradient-to-r from-[#f5f5ff] to-[#e0e7ff] font-sans">
-      {/* Sidebar */}
+    <div
+      className={`flex h-screen w-full bg-gradient-to-r from-[#f5f5ff] to-[#e0e7ff] font-sans
+     ${isOpen ? `ml-72` : `ml-0`}
+    `}
+    >
       <div className="w-1/4 bg-white shadow-xl border-r p-5 overflow-y-auto">
-        <h2 className="text-xl font-bold text-[#1100D1] mb-6">Chats</h2>
+        <h2
+          className={`text-xl font-bold text-[#1100D1] mb-6
+           ${isOpen ? "mt-0" : "mt-12"}
+          `}
+        >
+          Chats
+        </h2>
         <AnimatePresence>
           {tasks.map((task) => (
             <motion.button
@@ -102,7 +122,6 @@ function Chat() {
         </AnimatePresence>
       </div>
 
-      {/* Chat Section */}
       <div className="flex-1 flex flex-col p-6 bg-[#fdfcff]">
         <div className="flex-grow overflow-y-auto bg-white p-6 rounded-2xl shadow-lg space-y-3">
           <h2 className="text-2xl font-bold text-[#1100D1] mb-4">
@@ -146,7 +165,6 @@ function Chat() {
           {error && <p className="text-red-500 mt-2">{error}</p>}
         </div>
 
-        {/* Message Input */}
         {receiverId && (
           <form onSubmit={sendMessage} className="flex items-center gap-3 mt-4">
             <input

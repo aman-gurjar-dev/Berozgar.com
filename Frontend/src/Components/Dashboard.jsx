@@ -21,6 +21,7 @@ const Dashboard = () => {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [successMsg, setSuccessMsg] = useState("");
+  const [isSidebarWide, setIsSidebarWide] = useState(window.innerWidth >= 768);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -35,6 +36,16 @@ const Dashboard = () => {
       }
     };
     fetchUser();
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSidebarWide(window.innerWidth >= 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleChange = (e) => {
@@ -71,7 +82,9 @@ const Dashboard = () => {
 
   return (
     <motion.div
-      className="h-full overflow-y-auto w-full px-6 py-10 ml-72 bg-gradient-to-br from-[#f5f7ff] to-[#e2e8f0]"
+      className={`min-h-screen overflow-y-auto w-full px-4 sm:px-6 md:px-10 py-10 bg-gradient-to-br from-[#f5f7ff] to-[#e2e8f0] transition-all duration-300 ${
+        isSidebarWide ? "md:ml-[280px]" : ""
+      }`}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
@@ -88,8 +101,8 @@ const Dashboard = () => {
       ) : !user ? (
         <div className="text-center text-gray-600">No user data found.</div>
       ) : (
-        <div className="max-w-4xl w-full mx-auto bg-white p-10 rounded-3xl shadow-xl border border-[#e4e4e7]">
-          <h2 className="text-4xl font-bold mb-10 text-center text-[#1100D1] tracking-wide drop-shadow">
+        <div className="max-w-4xl w-full mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-xl border border-[#e4e4e7]">
+          <h2 className="text-2xl sm:text-4xl font-bold mb-10 text-center text-[#1100D1] tracking-wide drop-shadow">
             Welcome, {user.name.split(" ")[0]} 👋
           </h2>
 
@@ -159,7 +172,7 @@ const Dashboard = () => {
             </p>
           )}
 
-          <div className="mt-10 text-center flex justify-center gap-4">
+          <div className="mt-10 text-center flex justify-center flex-wrap gap-4">
             {!editable ? (
               <button
                 className="px-6 py-3 bg-[#1100D1] text-white font-semibold rounded-full shadow-md hover:bg-[#0e00aa] transition"
@@ -201,7 +214,9 @@ const Field = ({ label, value = "", icon }) => (
       <label className="block text-sm font-semibold text-gray-700">
         {label}
       </label>
-      <p className="text-md font-medium text-gray-900 mt-1">{value}</p>
+      <p className="text-md font-medium text-gray-900 mt-1 break-words">
+        {value}
+      </p>
     </div>
   </div>
 );
@@ -229,7 +244,9 @@ const EditableField = ({
           className="mt-1 w-full border px-3 py-2 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
       ) : (
-        <p className="text-md font-medium text-gray-900 mt-1">{value}</p>
+        <p className="text-md font-medium text-gray-900 mt-1 break-words">
+          {value}
+        </p>
       )}
     </div>
   </div>

@@ -9,7 +9,31 @@ const Home = () => {
   console.log(authUser);
 
   return (
-    <div className="w-screen h-[90vh] overflow-hidden bg-gradient-to-br from-[#f4f2ff] to-[#e2ddf5] flex items-center justify-center">
+    <div className="w-screen h-[90vh] overflow-hidden relative flex items-center justify-center">
+      {/* SVG Background */}
+      <motion.div
+        className="absolute top-0 left-0 w-full h-full -z-10"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
+          className="w-full h-full"
+        >
+          <motion.path
+            fill="#5B55CA"
+            fillOpacity="0.35"
+            d="M0,320L1440,128L1440,320L0,320Z"
+            initial={{ pathLength: 0, x: 30 }}
+            animate={{ pathLength: 1, x: 0 }}
+            transition={{ duration: 2, ease: "easeInOut" }}
+          />
+        </svg>
+      </motion.div>
+
       <section className="flex flex-col-reverse lg:flex-row items-center justify-between px-6 lg:px-24 py-10 h-full w-full">
         {/* Left Content */}
         <motion.div
@@ -18,12 +42,12 @@ const Home = () => {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <p className="text-[#6C63FF] text-base font-semibold uppercase tracking-wide">
+          <p className="text-[#1100D1] text-base font-semibold uppercase tracking-wide">
             Your Local Helper Network
           </p>
 
           <h1 className="text-4xl lg:text-5xl font-extrabold text-[#1a1a2e] leading-tight">
-            Micro Tasks, <span className="text-[#6C63FF]">Mega Impact</span>
+            Micro Tasks, <span className="text-[#1100D1]">Mega Impact</span>
           </h1>
 
           <p className="text-lg font-medium text-gray-800">
@@ -49,14 +73,15 @@ const Home = () => {
 
           {/* Mission Card */}
           <motion.div
-            className="bg-white rounded-xl shadow border border-gray-200 p-6 mt-6"
+            className="relative bg-[#FFF8F8] rounded-xl shadow border border-black border-2 p-6 pt-10 mt-16"
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            <div className="bg-[#1100D1] text-white px-4 py-1 text-sm font-semibold rounded-full inline-block mb-3">
+            <span className="absolute -top-5 left-8 bg-[#FFFDFD] text-blue-800 text-xs font-bold uppercase tracking-wide px-7 py-3 rounded-full shadow">
               Mission
-            </div>
+            </span>
+
             <h3 className="font-semibold text-md text-[#1a1a2e]">
               Hire Locals, Instantly & Easily
             </h3>

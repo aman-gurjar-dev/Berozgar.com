@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCalendarAlt } from "react-icons/fa";
 import axiosInstance from "../config/axios";
 import { motion } from "framer-motion";
@@ -33,7 +33,14 @@ const PostJobForm = () => {
   });
   const [loading, setLoading] = useState(false);
   const [responseMsg, setResponseMsg] = useState("");
-  const { authUser, setAuthUser } = UseAuth();
+  const { authUser } = UseAuth();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(window.innerWidth >= 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsSidebarOpen(window.innerWidth >= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -70,13 +77,15 @@ const PostJobForm = () => {
 
   return (
     <motion.div
-      className="h-full w-full ml-72 px-4 py-10 bg-gradient-to-br from-[#f0f4ff] to-[#dfe3ee] overflow-y-auto"
+      className={`min-h-screen w-full overflow-y-auto px-4 sm:px-6 md:px-10 py-10 bg-gradient-to-br from-[#f0f4ff] to-[#dfe3ee] transition-all duration-300 ${
+        isSidebarOpen ? "md:ml-[280px]" : ""
+      }`}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <div className="max-w-3xl w-full mx-auto bg-white/80 backdrop-blur-md p-10 rounded-3xl shadow-2xl border border-[#e2e8f0]">
-        <h2 className="text-4xl font-extrabold text-center mb-10 text-[#1100D1] tracking-wide drop-shadow">
+      <div className="max-w-3xl mx-auto bg-white/80 backdrop-blur-md p-8 sm:p-10 rounded-3xl shadow-2xl border border-[#e2e8f0]">
+        <h2 className="text-2xl sm:text-4xl font-extrabold text-center mb-10 text-[#1100D1] tracking-wide drop-shadow">
           Post a Job
         </h2>
 
@@ -114,9 +123,9 @@ const PostJobForm = () => {
           <Field
             label="Budget (₹)"
             name="price"
+            type="number"
             value={formData.price}
             onChange={handleChange}
-            type="number"
             placeholder="e.g. 200"
           />
           <DateField
@@ -141,19 +150,15 @@ const PostJobForm = () => {
           />
         </div>
 
-        {authUser.role === "tasker" ? (
-          <>
-            <h1 className=" text-red-700 relative top-3">
-              You can not Post You are tasker
-            </h1>
-          </>
-        ) : (
-          <></>
+        {authUser?.role === "tasker" && (
+          <p className="text-red-600 font-medium mt-4 text-center">
+            ❌ You cannot post a task as a Tasker.
+          </p>
         )}
 
         <button
           onClick={handleSubmit}
-          disabled={loading || authUser.role === "tasker"}
+          disabled={loading || authUser?.role === "tasker"}
           className="mt-8 w-full bg-[#1100D1] text-white py-3 rounded-xl font-bold text-lg shadow-md hover:bg-[#0e00aa] disabled:opacity-50 transition"
         >
           {loading ? "Posting..." : "Post Job"}
@@ -173,7 +178,7 @@ const PostJobForm = () => {
   );
 };
 
-// Reusable input field
+// Input field component
 const Field = ({
   label,
   name,
@@ -195,7 +200,7 @@ const Field = ({
   </div>
 );
 
-// Reusable select field
+// Select field component
 const SelectField = ({
   label,
   name,
@@ -224,7 +229,7 @@ const SelectField = ({
   </div>
 );
 
-// Reusable date picker field
+// Date input field with icon
 const DateField = ({ label, name, value, onChange }) => (
   <div>
     <label className="block mb-2 text-[#1100D1] font-semibold">{label}</label>

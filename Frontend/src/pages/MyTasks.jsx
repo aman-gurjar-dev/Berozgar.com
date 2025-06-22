@@ -13,7 +13,17 @@ const statusStyles = {
 const MyTasks = () => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isSidebarWide, setIsSidebarWide] = useState(window.innerWidth >= 768);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSidebarWide(window.innerWidth >= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -30,23 +40,33 @@ const MyTasks = () => {
     fetchTasks();
   }, []);
 
-  return loading ? (
-    <div className="min-h-screen flex flex-col justify-center items-center ml-72">
-      <div className="w-12 h-12 border-4 border-[#7b5eff] border-t-transparent rounded-full animate-spin"></div>
-      <p className="text-lg font-semibold mt-4 text-[#7b5eff]">
-        Loading your tasks...
-      </p>
-    </div>
-  ) : (
+  if (loading) {
+    return (
+      <div
+        className={`min-h-screen flex flex-col justify-center items-center ${
+          isSidebarWide ? "md:ml-[280px]" : ""
+        }`}
+      >
+        <div className="w-12 h-12 border-4 border-[#7b5eff] border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-lg font-semibold mt-4 text-[#7b5eff]">
+          Loading your tasks...
+        </p>
+      </div>
+    );
+  }
+
+  return (
     <motion.div
-      className="h-full w-full overflow-y-auto ml-72 px-4 py-10 bg-gradient-to-br from-[#f5f7ff] to-[#e6ebff]"
+      className={`min-h-screen w-full overflow-y-auto px-4 sm:px-6 md:px-10 py-10 bg-gradient-to-br from-[#f5f7ff] to-[#e6ebff] transition-all duration-300 ${
+        isSidebarWide ? "md:ml-[280px]" : ""
+      }`}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div className="max-w-4xl w-full mx-auto">
         <motion.h2
-          className="text-4xl font-extrabold text-center mb-12 text-[#1100D1] tracking-wide drop-shadow-md"
+          className="text-2xl sm:text-4xl font-extrabold text-center mb-12 text-[#1100D1] tracking-wide drop-shadow-md"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -63,7 +83,7 @@ const MyTasks = () => {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.05 }}
               whileHover={{ scale: 1.02 }}
-              className="bg-white rounded-2xl px-6 py-5 shadow-lg hover:shadow-2xl transition-shadow border border-[#e2e8f0] flex justify-between items-center"
+              className="bg-white rounded-2xl px-6 py-5 shadow-lg hover:shadow-2xl transition-shadow border border-[#e2e8f0] flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
             >
               <div className="space-y-1">
                 <h3 className="text-xl font-bold text-[#1100D1]">
@@ -80,7 +100,7 @@ const MyTasks = () => {
                 </p>
               </div>
 
-              <div className="flex flex-col items-end gap-2">
+              <div className="flex flex-col items-start sm:items-end gap-2">
                 <span
                   className={`px-3 py-1 rounded-full text-xs font-medium ${
                     statusStyles[task.status] || "bg-gray-300 text-gray-700"

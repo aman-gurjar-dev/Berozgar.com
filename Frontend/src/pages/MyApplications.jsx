@@ -12,6 +12,15 @@ const statusStyles = {
 const MyApplications = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isSidebarWide, setIsSidebarWide] = useState(window.innerWidth >= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSidebarWide(window.innerWidth >= 768);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const fetchApplications = async () => {
@@ -32,7 +41,11 @@ const MyApplications = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center ml-72">
+      <div
+        className={`min-h-screen flex justify-center items-center px-6 ${
+          isSidebarWide ? "md:ml-[280px]" : ""
+        }`}
+      >
         <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
         <p className="ml-4 text-lg font-semibold text-purple-700">
           Loading applications...
@@ -43,7 +56,11 @@ const MyApplications = () => {
 
   if (applications.length === 0) {
     return (
-      <div className="min-h-screen flex justify-center items-center ml-72">
+      <div
+        className={`min-h-screen flex justify-center items-center px-6 ${
+          isSidebarWide ? "md:ml-[280px]" : ""
+        }`}
+      >
         <p className="text-lg font-semibold text-gray-600">
           No applications found.
         </p>
@@ -53,12 +70,14 @@ const MyApplications = () => {
 
   return (
     <motion.div
-      className="h-full w-full ml-72 px-6 py-10 overflow-y-auto"
+      className={`min-h-screen w-full px-4 sm:px-6 md:px-10 py-10 transition-all duration-300 ${
+        isSidebarWide ? "md:ml-[280px]" : ""
+      }`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="text-3xl font-extrabold text-center mb-10 text-[#1100D1]">
+      <h2 className="text-2xl sm:text-3xl font-extrabold text-center mb-10 text-[#1100D1]">
         My Applications
       </h2>
 
@@ -66,14 +85,14 @@ const MyApplications = () => {
         {applications.map((app) => (
           <motion.div
             key={app._id}
-            className="bg-white p-6 rounded-xl shadow-xl border border-gray-200 space-y-2"
+            className="bg-white p-4 sm:p-6 rounded-xl shadow-md border border-gray-200 space-y-3"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
               <div>
-                <h3 className="text-xl font-bold text-[#1100D1]">
+                <h3 className="text-lg sm:text-xl font-bold text-[#1100D1]">
                   {app.task.title}
                 </h3>
                 <p className="text-sm text-gray-600">
@@ -89,7 +108,7 @@ const MyApplications = () => {
                 </p>
               </div>
               <span
-                className={`px-4 py-1 rounded-full text-sm font-semibold uppercase ${
+                className={`self-start sm:self-auto px-4 py-1 rounded-full text-sm font-semibold uppercase ${
                   statusStyles[app.status]
                 }`}
               >
@@ -97,7 +116,7 @@ const MyApplications = () => {
               </span>
             </div>
 
-            <p className="mt-2 text-gray-800">
+            <p className="text-gray-800 text-sm sm:text-base">
               <span className="font-semibold">Your Message:</span> {app.message}
             </p>
 

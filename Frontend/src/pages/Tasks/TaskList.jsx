@@ -15,12 +15,24 @@ const TaskList = () => {
     sort: "newest",
   });
 
+  const [isSidebarWide, setIsSidebarWide] = useState(window.innerWidth >= 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSidebarWide(window.innerWidth >= 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const handleFilterChange = (name, value) => {
     setFilters((prev) => ({
       ...prev,
       [name]: value,
     }));
-    setCurrentPage(1); // reset to first page on filter change
+    setCurrentPage(1);
   };
 
   const tasksPerPage = 4;
@@ -54,9 +66,12 @@ const TaskList = () => {
   }
 
   return (
-    <div className="h-full w-[80vw] ml-[20vw] bg-[#e8e2fa] overflow-auto py-10 px-4 lg:px-20">
+    <div
+      className={`min-h-screen w-full bg-[#e8e2fa] py-6 px-4 sm:px-6 md:px-10 lg:px-20 transition-all duration-300
+      ${isSidebarWide ? "md:ml-[270px]" : "ml-0"}`}
+    >
       <motion.h2
-        className="text-3xl font-bold text-center mb-8"
+        className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
@@ -73,7 +88,7 @@ const TaskList = () => {
       </motion.div>
 
       <motion.div
-        className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto"
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto px-2 mt-8"
         initial="hidden"
         animate="visible"
         variants={{
@@ -97,6 +112,7 @@ const TaskList = () => {
       </motion.div>
 
       <motion.div
+        className="mt-10 flex justify-center"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, delay: 0.2 }}
