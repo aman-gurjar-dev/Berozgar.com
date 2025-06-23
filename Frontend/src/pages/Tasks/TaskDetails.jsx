@@ -79,91 +79,120 @@ const TaskDetails = () => {
   }
 
   return (
-    <div className="h-[90vh] bg-[#f8f5ff] py-20 px-6 md:px-20">
+    <>
       <motion.div
-        className="max-w-3xl mx-auto bg-white shadow-lg rounded-xl p-8"
-        initial="hidden"
-        animate="visible"
-        variants={fadeInUp}
+        className="absolute top-0 left-0 w-full h-full -z-10"
+        initial={{ opacity: 0, y: 100 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
       >
-        <motion.h2
-          className="text-3xl font-bold mb-4"
-          custom={0}
-          variants={fadeInUp}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 320"
+          preserveAspectRatio="none"
+          className="w-full h-full"
         >
-          {task.title}
-        </motion.h2>
-
-        <motion.div
-          className="flex flex-wrap gap-4 text-sm text-gray-600 mb-6"
-          custom={1}
-          variants={fadeInUp}
-        >
-          <span className="flex items-center gap-2">
-            <FaUser /> Posted by: <strong>{task.createdBy?.name}</strong>
-          </span>
-          <span className="flex items-center gap-2">
-            <FaClock /> Deadline:{" "}
-            <strong>{new Date(task.deadline).toLocaleDateString()}</strong>
-          </span>
-          <span className="flex items-center gap-2">
-            <FaMoneyBillAlt /> Budget: <strong>₹{task.price}</strong>
-          </span>
-          <span className="flex items-center gap-2">
-            <FaMapMarkerAlt /> Status:{" "}
-            <strong className="capitalize">{task.status}</strong>
-          </span>
-          <span className="flex items-center gap-2">
-            Category: <strong>{task.category}</strong>
-          </span>
-        </motion.div>
-
-        <hr className="my-4" />
-
-        <motion.p
-          className="text-gray-800 whitespace-pre-line"
-          custom={2}
-          variants={fadeInUp}
-        >
-          <strong>Description:</strong>
-          <br />
-          {task.description}
-        </motion.p>
-
-        <motion.div className="mt-6 text-right" custom={3} variants={fadeInUp}>
-          <motion.input
-            type="text"
-            value={message}
-            onChange={(e) => {
-              setMessage(e.target.value);
-              setSuccess("");
-            }}
-            placeholder="Enter your message"
-            className="w-full mb-4 px-4 py-2 border rounded shadow-sm focus:outline-none"
-            whileFocus={{ scale: 1.01 }}
+          <motion.path
+            fill="#5B55CA"
+            fillOpacity="0.35"
+            d="M0,320L1440,128L1440,320L0,320Z"
+            initial={{ pathLength: 0, x: 30 }}
+            animate={{ pathLength: 1, x: 0 }}
+            transition={{ duration: 2, ease: "easeInOut" }}
           />
-          <motion.button
-            onClick={handleApply}
-            disabled={isApplying || !message.trim()}
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="bg-[#5d2fff] text-white px-6 py-2 rounded-full shadow hover:bg-[#4a24d2] transition disabled:opacity-60"
-          >
-            {isApplying ? "Applying..." : "Apply for Task"}
-          </motion.button>
-
-          {success && (
-            <motion.p
-              className="mt-2 text-sm text-green-600"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-            >
-              {success}
-            </motion.p>
-          )}
-        </motion.div>
+        </svg>
       </motion.div>
-    </div>
+
+      <div className="h-[90vh] py-20 px-6 md:px-20">
+        <motion.div
+          className="max-w-3xl mx-auto bg-[#dccece28] shadow-lg rounded-xl p-8"
+          initial="hidden"
+          animate="visible"
+          variants={fadeInUp}
+        >
+          <motion.h2
+            className="text-3xl font-bold mb-4"
+            custom={0}
+            variants={fadeInUp}
+          >
+            {task.title}
+          </motion.h2>
+
+          <motion.div
+            className="flex flex-wrap gap-4 text-sm text-gray-600 mb-6"
+            custom={1}
+            variants={fadeInUp}
+          >
+            <span className="flex items-center gap-2">
+              <FaUser /> Posted by: <strong>{task.createdBy?.name}</strong>
+            </span>
+            <span className="flex items-center gap-2">
+              <FaClock /> Deadline:{" "}
+              <strong>{new Date(task.deadline).toLocaleDateString()}</strong>
+            </span>
+            <span className="flex items-center gap-2">
+              <FaMoneyBillAlt /> Budget: <strong>₹{task.price}</strong>
+            </span>
+            <span className="flex items-center gap-2">
+              <FaMapMarkerAlt /> Status:{" "}
+              <strong className="capitalize">{task.status}</strong>
+            </span>
+            <span className="flex items-center gap-2">
+              Category: <strong>{task.category}</strong>
+            </span>
+          </motion.div>
+
+          <hr className="my-4" />
+
+          <motion.p
+            className="text-gray-800 whitespace-pre-line"
+            custom={2}
+            variants={fadeInUp}
+          >
+            <strong>Description:</strong>
+            <br />
+            {task.description}
+          </motion.p>
+
+          <motion.div
+            className="mt-6 text-right"
+            custom={3}
+            variants={fadeInUp}
+          >
+            <motion.input
+              type="text"
+              value={message}
+              onChange={(e) => {
+                setMessage(e.target.value);
+                setSuccess("");
+              }}
+              placeholder="Enter your message"
+              className="w-full mb-4 px-4 py-2 border rounded shadow-sm focus:outline-none"
+              whileFocus={{ scale: 1.01 }}
+            />
+            <motion.button
+              onClick={handleApply}
+              disabled={isApplying || !message.trim()}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="bg-[#5d2fff] text-white px-6 py-2 rounded-full shadow hover:bg-[#4a24d2] transition disabled:opacity-60"
+            >
+              {isApplying ? "Applying..." : "Apply for Task"}
+            </motion.button>
+
+            {success && (
+              <motion.p
+                className="mt-2 text-sm text-green-600"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              >
+                {success}
+              </motion.p>
+            )}
+          </motion.div>
+        </motion.div>
+      </div>
+    </>
   );
 };
 

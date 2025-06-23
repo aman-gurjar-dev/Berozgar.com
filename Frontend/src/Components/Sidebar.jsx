@@ -85,7 +85,7 @@ const Sidebar = () => {
           <span className="text-[#7b5eff]">.com</span>
         </div>
 
-        <nav className="flex flex-col gap-3 overflow-y-auto flex-grow">
+        <nav className="flex flex-col gap-3 flex-grow">
           {navItems.map((item) => (
             <NavLink
               key={item.label}
