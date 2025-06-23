@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../config/axios";
 import { UseAuth } from "../context/AuthProvider";
 
 const ProtectedRoute = ({ children }) => {
@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        await axios.get("http://localhost:3000/api/auth/protected", {
+        await axios.get("api/auth/protected", {
           withCredentials: true, // <-- needed for cookie to be sent
         });
         setIsAuthenticated(true);
