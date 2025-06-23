@@ -6,6 +6,8 @@ import { UseAuth } from "../../context/AuthProvider";
 const StepThree = ({ prevStep, formData, updateForm }) => {
   const { authUser, setAuthUser } = UseAuth();
 
+  const locationOptions = ["Indore", "Dewas", "Ujjain", "Delhi"];
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (["city", "area"].includes(name)) {
@@ -16,15 +18,15 @@ const StepThree = ({ prevStep, formData, updateForm }) => {
   };
 
   const navigate = useNavigate();
+
   const handleSubmit = async () => {
     try {
-      const res = await axiosInstance.post("/api/auth/register", formData);
+      const res = await axiosInstance.post("api/auth/register", formData);
       console.log("Registered:", res.data);
-      setAuthUser(JSON.stringify(result.data.user));
-      localStorage.setItem("user", JSON.stringify(result.data.user));
+      setAuthUser(JSON.stringify(res.data.user));
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       alert("Registered successfully!");
-      navigate("/");
-      // Optionally redirect user here
+      navigate("/dashboard");
     } catch (err) {
       console.error("Registration failed:", err.response?.data || err.message);
       alert("Registration failed. Please try again.");
@@ -48,13 +50,22 @@ const StepThree = ({ prevStep, formData, updateForm }) => {
         onChange={handleChange}
         className="w-full mb-4 px-4 py-2 rounded bg-white shadow"
       />
-      <input
+      <select
         name="city"
-        placeholder="City"
         value={formData.location.city}
         onChange={handleChange}
         className="w-full mb-4 px-4 py-2 rounded bg-white shadow"
-      />
+      >
+        <option value="" disabled>
+          Select City
+        </option>
+        {locationOptions.map((city) => (
+          <option key={city} value={city}>
+            {city}
+          </option>
+        ))}
+      </select>
+
       <input
         name="area"
         placeholder="Area"

@@ -12,10 +12,13 @@ const userSchema = new mongoose.Schema(
     bio: { type: String, maxlength: 300 },
     skills: [{ type: String }],
     location: {
-      city: { type: String, default: "Indore" },
+      city: {
+        type: String,
+        enum: ["Indore", "Dewas", "Ujjain", "Delhi"],
+        default: "Indore",
+      },
       area: { type: String },
     },
-
     rating: [{ type: Number, min: 1, max: 5 }],
     averageRating: { type: Number, default: 0 },
     totalRatings: { type: Number, default: 0 },
