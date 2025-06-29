@@ -56,7 +56,7 @@ const TaskDetails = () => {
       setMessage("");
     } catch (error) {
       console.error("Failed to apply:", error);
-      setSuccess(`❌ Failed to apply for task.`);
+      setSuccess("❌ Failed to apply for task.");
     } finally {
       setIsApplying(false);
     }
@@ -64,7 +64,7 @@ const TaskDetails = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center">
+      <div className="min-h-screen flex justify-center items-center bg-black text-white">
         <p className="text-lg font-semibold">Loading Task Details...</p>
       </div>
     );
@@ -72,14 +72,15 @@ const TaskDetails = () => {
 
   if (!task) {
     return (
-      <div className="min-h-screen flex justify-center items-center">
-        <p className="text-lg font-semibold text-red-500">Task not found.</p>
+      <div className="min-h-screen flex justify-center items-center bg-black text-red-500">
+        <p className="text-lg font-semibold">Task not found.</p>
       </div>
     );
   }
 
   return (
     <>
+      {/* Background SVG */}
       <motion.div
         className="absolute top-0 left-0 w-full h-full -z-10"
         initial={{ opacity: 0, y: 100 }}
@@ -103,15 +104,16 @@ const TaskDetails = () => {
         </svg>
       </motion.div>
 
-      <div className="h-[90vh] py-20 px-6 md:px-20">
+      {/* Main Content */}
+      <div className="h-[90vh] py-20 px-6 md:px-20 z-[20] relative text-white">
         <motion.div
-          className="max-w-3xl mx-auto bg-[#dccece28] shadow-lg rounded-xl p-8"
+          className="max-w-3xl mx-auto bg-zinc-900 shadow-2xl border border-zinc-700 rounded-xl p-8"
           initial="hidden"
           animate="visible"
           variants={fadeInUp}
         >
           <motion.h2
-            className="text-3xl font-bold mb-4"
+            className="text-3xl font-bold mb-4 text-cyan-400"
             custom={0}
             variants={fadeInUp}
           >
@@ -119,7 +121,7 @@ const TaskDetails = () => {
           </motion.h2>
 
           <motion.div
-            className="flex flex-wrap gap-4 text-sm text-gray-600 mb-6"
+            className="flex flex-wrap gap-4 text-sm text-gray-300 mb-6"
             custom={1}
             variants={fadeInUp}
           >
@@ -142,14 +144,14 @@ const TaskDetails = () => {
             </span>
           </motion.div>
 
-          <hr className="my-4" />
+          <hr className="my-4 border-gray-600" />
 
           <motion.p
-            className="text-gray-800 whitespace-pre-line"
+            className="text-gray-300 whitespace-pre-line"
             custom={2}
             variants={fadeInUp}
           >
-            <strong>Description:</strong>
+            <strong className="text-white">Description:</strong>
             <br />
             {task.description}
           </motion.p>
@@ -167,7 +169,7 @@ const TaskDetails = () => {
                 setSuccess("");
               }}
               placeholder="Enter your message"
-              className="w-full mb-4 px-4 py-2 border rounded shadow-sm focus:outline-none"
+              className="w-full mb-4 px-4 py-2 border border-zinc-600 bg-zinc-800 text-white rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-cyan-500"
               whileFocus={{ scale: 1.01 }}
             />
             <motion.button
@@ -175,14 +177,16 @@ const TaskDetails = () => {
               disabled={isApplying || !message.trim()}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="bg-[#5d2fff] text-white px-6 py-2 rounded-full shadow hover:bg-[#4a24d2] transition disabled:opacity-60"
+              className="bg-cyan-500 text-black px-6 py-2 rounded-full shadow hover:bg-cyan-400 transition disabled:opacity-60"
             >
               {isApplying ? "Applying..." : "Apply for Task"}
             </motion.button>
 
             {success && (
               <motion.p
-                className="mt-2 text-sm text-green-600"
+                className={`mt-2 text-sm ${
+                  success.startsWith("✅") ? "text-green-400" : "text-red-400"
+                }`}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >

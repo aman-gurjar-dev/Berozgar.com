@@ -41,6 +41,9 @@ const TaskFilters = ({ onFilterChange }) => {
     onFilterChange(name, value);
   };
 
+  const commonStyles =
+    "px-4 py-2 rounded-full bg-zinc-800 text-gray-100 border border-gray-600 shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600";
+
   return (
     <motion.div
       className="flex flex-wrap gap-4 justify-center mb-10"
@@ -50,7 +53,7 @@ const TaskFilters = ({ onFilterChange }) => {
     >
       <motion.select
         name="city"
-        className="px-4 py-2 rounded-full bg-white border shadow-sm"
+        className={commonStyles}
         onChange={handleChange}
         variants={itemVariants}
         whileHover={{ scale: 1.03 }}
@@ -65,7 +68,7 @@ const TaskFilters = ({ onFilterChange }) => {
 
       <motion.select
         name="category"
-        className="px-4 py-2 rounded-full bg-white border shadow-sm"
+        className={commonStyles}
         onChange={handleChange}
         variants={itemVariants}
         whileHover={{ scale: 1.03 }}
@@ -80,7 +83,7 @@ const TaskFilters = ({ onFilterChange }) => {
 
       <motion.select
         name="sort"
-        className="px-4 py-2 rounded-full bg-white border shadow-sm"
+        className={commonStyles}
         onChange={handleChange}
         variants={itemVariants}
         whileHover={{ scale: 1.03 }}

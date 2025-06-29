@@ -5,23 +5,23 @@ import { FaSearch, FaUserFriends, FaWallet, FaMobileAlt } from "react-icons/fa";
 // Feature card data
 const features = [
   {
-    icon: <FaSearch className="text-4xl text-purple-700" />,
+    icon: <FaSearch className="text-4xl text-cyan-400" />,
     title: "Find Tasks Easily",
     description:
       "Browse and filter tasks based on your location, skills, and interests.",
   },
   {
-    icon: <FaUserFriends className="text-4xl text-purple-700" />,
+    icon: <FaUserFriends className="text-4xl text-cyan-400" />,
     title: "Connect With Locals",
     description: "Get hired or hire people from your neighborhood or city.",
   },
   {
-    icon: <FaWallet className="text-4xl text-purple-700" />,
+    icon: <FaWallet className="text-4xl text-cyan-400" />,
     title: "Earn On Your Terms",
     description: "Choose tasks that suit your schedule and get paid securely.",
   },
   {
-    icon: <FaMobileAlt className="text-4xl text-purple-700" />,
+    icon: <FaMobileAlt className="text-4xl text-cyan-400" />,
     title: "Simple To Use",
     description:
       "User-friendly mobile and web interface for fast task posting and applying.",
@@ -46,7 +46,7 @@ const cardVariants = {
 
 const Features = () => {
   return (
-    <div className="relative min-h-[90vh] py-16 px-4 lg:px-20 overflow-hidden">
+    <div className="relative min-h-[90vh] py-16 px-4 lg:px-20 overflow-hidden  text-white">
       {/* Animated Background SVG */}
       <motion.div
         className="absolute top-0 left-0 w-full h-full -z-10"
@@ -62,7 +62,7 @@ const Features = () => {
         >
           <motion.path
             fill="#5B55CA"
-            fillOpacity="0.25"
+            fillOpacity="0.08"
             d="M0,320L1440,128L1440,320L0,320Z"
             initial={{ pathLength: 0 }}
             animate={{ pathLength: 1 }}
@@ -73,7 +73,7 @@ const Features = () => {
 
       {/* Heading */}
       <motion.h1
-        className="text-4xl font-bold text-center text-[#5d2fff] mb-14"
+        className="text-4xl font-bold text-center text-cyan-400 mb-14"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
@@ -91,14 +91,14 @@ const Features = () => {
         {features.map((feature, index) => (
           <motion.div
             key={index}
-            className="bg-[#FFF8F8] p-6 rounded-xl shadow-md hover:shadow-xl transition-all"
+            className="bg-white/5 p-6 rounded-xl shadow-md hover:shadow-xl transition-all border border-white/10 backdrop-blur"
             variants={cardVariants}
           >
             <div className="mb-4">{feature.icon}</div>
-            <h2 className="text-xl font-semibold mb-2 text-[#5d2fff]">
+            <h2 className="text-xl font-semibold mb-2 text-white">
               {feature.title}
             </h2>
-            <p className="text-gray-700 text-sm">{feature.description}</p>
+            <p className="text-sm text-gray-300">{feature.description}</p>
           </motion.div>
         ))}
       </motion.div>

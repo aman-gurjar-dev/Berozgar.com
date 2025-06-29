@@ -1,7 +1,9 @@
 import { NavLink, useNavigate, Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import logo from "../assets/logo.png";
 import { UseAuth } from "../context/AuthProvider";
+import { Menu, X } from "lucide-react";
 
 const linkVariants = {
   initial: { opacity: 0, y: -10 },
@@ -14,6 +16,8 @@ const linkVariants = {
 
 const Navbar = () => {
   const { authUser } = UseAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const links = [
     { to: "/", label: "Home" },
     { to: "/about", label: "About" },
@@ -22,34 +26,14 @@ const Navbar = () => {
   ];
 
   return (
-    <div className="relative ">
+    <div className="relative z-50">
       {/* SVG Background */}
-      <div className="absolute top-0 left-0 w-full h-[150px] -z-10 overflow-hidden">
-        <motion.svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1440 320"
-          preserveAspectRatio="none"
-          className="w-full h-full"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-        >
-          <motion.path
-            fill="#5B55CA"
-            fillOpacity="0.35"
-            d="M0,96L80,128C160,160,320,224,480,234.7C640,245,800,203,960,186.7C1120,171,1280,181,1360,186.7L1440,192L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ duration: 1.6, ease: "easeInOut", delay: 0.2 }}
-          />
-        </motion.svg>
-      </div>
 
       {/* Navbar */}
-      <nav className="w-full flex h-[10vh] justify-between items-center px-8 py-4 bg-transparent">
+      <nav className="w-full flex justify-between items-center px-6 py-4 md:px-8 bg-transparent">
         {/* Logo */}
         <motion.div
-          className="flex items-center gap-2 text-xl font-bold text-[#2e2e2e]"
+          className="flex items-center gap-2 text-xl font-bold text-white"
           initial={{ x: -20, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
@@ -58,9 +42,16 @@ const Navbar = () => {
           <span>Berozgar.com</span>
         </motion.div>
 
-        {/* Nav Links */}
+        {/* Hamburger Icon - Mobile */}
+        <div className="md:hidden z-50 text-white">
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Nav Links - Desktop */}
         <motion.ul
-          className="hidden md:flex items-center gap-8 text-md font-medium bg-white px-6 py-2 rounded-full shadow-md"
+          className="hidden md:flex items-center lg:gap-8 gap-4 text-md font-medium bg-[#121212] px-6 py-2 rounded-full shadow-md"
           initial="initial"
           animate="animate"
         >
@@ -70,8 +61,8 @@ const Navbar = () => {
                 to={link.to}
                 className={({ isActive }) =>
                   isActive
-                    ? "text-[#5B55CA]"
-                    : "text-gray-800 hover:text-[#5B55CA] transition-colors"
+                    ? "text-[#00e0ff]"
+                    : "text-gray-300 hover:text-[#00e0ff] transition-colors"
                 }
               >
                 {link.label}
@@ -80,17 +71,17 @@ const Navbar = () => {
           ))}
         </motion.ul>
 
-        {/* Auth Box */}
-        <div className="flex items-center gap-4">
+        {/* Auth Box - Desktop */}
+        <div className="hidden md:flex items-center gap-4">
           {authUser ? (
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="flex flex-col text-right"
+              className="flex flex-col text-right text-white"
             >
-              <span className="text-sm text-gray-600">Welcome Back,</span>
-              <span className="text-md font-semibold text-purple-800">
+              <span className="text-sm text-gray-400">Welcome Back,</span>
+              <span className="text-md font-semibold text-[#00e0ff]">
                 {authUser.name}
               </span>
             </motion.div>
@@ -105,9 +96,9 @@ const Navbar = () => {
               >
                 <Link
                   to="/login"
-                  className="bg-white text-black px-4 py-2 rounded-full font-medium shadow-md hover:bg-gray-100"
+                  className="bg-[#1a1a1a] text-white px-4 py-2 rounded-full font-medium shadow-md hover:bg-[#333]"
                 >
-                  LogIn
+                  Log In
                 </Link>
               </motion.div>
               <motion.div
@@ -119,7 +110,7 @@ const Navbar = () => {
               >
                 <Link
                   to="/register"
-                  className="bg-white text-black px-4 py-2 rounded-full font-medium shadow-md hover:bg-gray-100"
+                  className="bg-[#1a1a1a] text-white px-4 py-2 rounded-full font-medium shadow-md hover:bg-[#333]"
                 >
                   Sign Up
                 </Link>
@@ -128,6 +119,60 @@ const Navbar = () => {
           )}
         </div>
       </nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-[#121212] shadow-lg rounded-md mx-4 mt-2 p-4 space-y-4 text-white"
+          >
+            {links.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                className={({ isActive }) =>
+                  isActive
+                    ? "block text-[#00e0ff] font-semibold"
+                    : "block text-gray-300 hover:text-[#00e0ff]"
+                }
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {link.label}
+              </NavLink>
+            ))}
+
+            {!authUser ? (
+              <div className="flex flex-col gap-2">
+                <Link
+                  to="/login"
+                  className="block bg-[#1f2937] text-white px-4 py-2 rounded-full text-center font-medium"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="block bg-[#1f2937] text-white px-4 py-2 rounded-full text-center font-medium"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Sign Up
+                </Link>
+              </div>
+            ) : (
+              <div className="text-right">
+                <span className="text-sm text-gray-400">Welcome,</span>
+                <p className="text-md font-semibold text-[#00e0ff]">
+                  {authUser.name}
+                </p>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

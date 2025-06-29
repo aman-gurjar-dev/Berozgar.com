@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { UseAuth } from "../context/AuthProvider";
 
 const Home = () => {
-  const { authUser, setAuthUser } = UseAuth();
+  const { authUser } = UseAuth();
   console.log(authUser);
 
   return (
@@ -25,7 +25,7 @@ const Home = () => {
         >
           <motion.path
             fill="#5B55CA"
-            fillOpacity="0.35"
+            fillOpacity="0.25"
             d="M0,320L1440,128L1440,320L0,320Z"
             initial={{ pathLength: 0, x: 30 }}
             animate={{ pathLength: 1, x: 0 }}
@@ -42,30 +42,30 @@ const Home = () => {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <p className="text-[#1100D1] text-base font-semibold uppercase tracking-wide">
+          <p className="text-[#00e0ff] text-base font-semibold uppercase tracking-wide">
             Your Local Helper Network
           </p>
 
-          <h1 className="text-4xl lg:text-5xl font-extrabold text-[#1a1a2e] leading-tight">
-            Micro Tasks, <span className="text-[#1100D1]">Mega Impact</span>
+          <h1 className="text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+            Micro Tasks, <span className="text-[#00e0ff]">Mega Impact</span>
           </h1>
 
-          <p className="text-lg font-medium text-gray-800">
+          <p className="text-lg font-medium text-gray-300">
             Get things done anytime, anywhere with trusted locals in{" "}
-            <span className="font-semibold text-[#1100D1]">Indore</span>.
+            <span className="font-semibold text-[#00e0ff]">Indore</span>.
           </p>
 
           {/* CTA Buttons */}
           <div className="flex gap-4 mt-5 flex-wrap">
             <Link
               to="/dashboard"
-              className="bg-[#1100D1] text-white px-6 py-3 rounded-full text-base font-semibold hover:bg-[#0e00aa] shadow-md transition-all"
+              className="bg-[#00e0ff] text-black px-6 py-3 rounded-full text-base font-semibold hover:bg-[#00cbe0] shadow-md transition-all"
             >
               Explore Now
             </Link>
             <Link
               to="/dashboard/postjob"
-              className="bg-white text-[#1100D1] px-6 py-3 rounded-full text-base font-semibold border border-[#1100D1] hover:bg-[#f3f0ff] transition shadow"
+              className="bg-transparent text-[#00e0ff] px-6 py-3 rounded-full text-base font-semibold border border-[#00e0ff] hover:bg-[#08111c] transition shadow"
             >
               Post Task
             </Link>
@@ -73,19 +73,19 @@ const Home = () => {
 
           {/* Mission Card */}
           <motion.div
-            className="relative bg-[#FFF8F8] rounded-xl shadow border border-black border-2 p-6 pt-10 mt-16"
+            className="relative bg-[#0f172a] rounded-xl shadow border border-[#00e0ff] p-6 pt-10 mt-16"
             initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            <span className="absolute -top-5 left-8 bg-[#FFFDFD] text-blue-800 text-xs font-bold uppercase tracking-wide px-7 py-3 rounded-full shadow">
+            <span className="absolute -top-5 left-8 bg-[#0f172a] text-[#00e0ff] text-xs font-bold uppercase tracking-wide px-7 py-3 rounded-full shadow">
               Mission
             </span>
 
-            <h3 className="font-semibold text-md text-[#1a1a2e]">
+            <h3 className="font-semibold text-md text-white">
               Hire Locals, Instantly & Easily
             </h3>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-sm text-gray-400 mt-1">
               Making everyday tasks easier and enabling earning opportunities by
               connecting real people within your city.
             </p>
@@ -94,7 +94,7 @@ const Home = () => {
 
         {/* Right Image */}
         <motion.div
-          className="w-full lg:w-1/3 flex justify-center items-center mt-10 lg:mt-0 relative top-[8vh]"
+          className="w-0 lg:w-1/3 flex justify-center items-center mt-10 lg:mt-0 relative top-[8vh]"
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.7 }}

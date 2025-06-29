@@ -42,8 +42,6 @@ const Dashboard = () => {
     const handleResize = () => {
       setIsSidebarWide(window.innerWidth >= 768);
     };
-
-    handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -82,7 +80,7 @@ const Dashboard = () => {
 
   return (
     <motion.div
-      className={`min-h-screen overflow-y-auto w-full px-4 sm:px-6 md:px-10 py-10 bg-gradient-to-br from-[#f5f7ff] to-[#e2e8f0] transition-all duration-300 ${
+      className={`min-h-screen overflow-y-auto w-full px-4 sm:px-6 md:px-10 py-10  text-white transition-all duration-300 ${
         isSidebarWide ? "md:ml-[280px]" : ""
       }`}
       initial={{ opacity: 0, y: 30 }}
@@ -91,18 +89,18 @@ const Dashboard = () => {
     >
       {loading ? (
         <div className="h-[75vh] w-full flex flex-col justify-center items-center">
-          <div className="w-12 h-12 border-4 border-[#7b5eff] border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-lg font-semibold mt-4 text-[#7b5eff]">
+          <div className="w-12 h-12 border-4 border-purple-400 border-t-transparent rounded-full animate-spin"></div>
+          <p className="text-lg font-semibold mt-4 text-purple-400">
             Loading your dashboard...
           </p>
         </div>
       ) : error ? (
         <div className="text-red-500 text-center">{error}</div>
       ) : !user ? (
-        <div className="text-center text-gray-600">No user data found.</div>
+        <div className="text-center text-gray-300">No user data found.</div>
       ) : (
-        <div className="max-w-4xl w-full mx-auto bg-white p-6 sm:p-10 rounded-3xl shadow-xl border border-[#e4e4e7]">
-          <h2 className="text-2xl sm:text-4xl font-bold mb-10 text-center text-[#1100D1] tracking-wide drop-shadow">
+        <div className="max-w-4xl w-full mx-auto bg-[#1c1c2b] p-6 relative z-10 sm:p-10 rounded-3xl shadow-xl border border-gray-700">
+          <h2 className="text-2xl sm:text-4xl font-bold mb-10 text-center text-purple-300 tracking-wide">
             Welcome, {user.name.split(" ")[0]} 👋
           </h2>
 
@@ -167,7 +165,7 @@ const Dashboard = () => {
           </div>
 
           {successMsg && (
-            <p className="text-green-600 text-sm text-center mt-4">
+            <p className="text-green-400 text-sm text-center mt-4">
               {successMsg}
             </p>
           )}
@@ -175,7 +173,7 @@ const Dashboard = () => {
           <div className="mt-10 text-center flex justify-center flex-wrap gap-4">
             {!editable ? (
               <button
-                className="px-6 py-3 bg-[#1100D1] text-white font-semibold rounded-full shadow-md hover:bg-[#0e00aa] transition"
+                className="px-6 py-3 bg-purple-600 text-white font-semibold rounded-full hover:bg-purple-700 transition"
                 onClick={() => setEditable(true)}
               >
                 Update Information
@@ -183,17 +181,17 @@ const Dashboard = () => {
             ) : (
               <>
                 <button
-                  className="px-6 py-3 bg-green-600 text-white font-semibold rounded-full shadow-md hover:bg-green-700 transition"
+                  className="px-6 py-3 bg-green-600 text-white font-semibold rounded-full hover:bg-green-700 transition"
                   onClick={handleUpdate}
                   disabled={saving}
                 >
                   {saving ? "Saving..." : "Save Changes"}
                 </button>
                 <button
-                  className="px-6 py-3 bg-gray-400 text-white font-semibold rounded-full shadow-md hover:bg-gray-600 transition"
+                  className="px-6 py-3 bg-gray-600 text-white font-semibold rounded-full hover:bg-gray-700 transition"
                   onClick={() => {
                     setEditable(false);
-                    setFormData(user); // Reset unsaved changes
+                    setFormData(user);
                   }}
                 >
                   Cancel
@@ -208,15 +206,13 @@ const Dashboard = () => {
 };
 
 const Field = ({ label, value = "", icon }) => (
-  <div className="flex items-start space-x-4 bg-gray-100 rounded-xl px-4 py-5 shadow-sm">
-    <div className="text-indigo-600">{icon}</div>
+  <div className="flex items-start space-x-4 bg-[#2b2b3d] rounded-xl px-4 py-5 shadow-sm">
+    <div className="text-purple-400">{icon}</div>
     <div className="w-full">
-      <label className="block text-sm font-semibold text-gray-700">
+      <label className="block text-sm font-semibold text-gray-300">
         {label}
       </label>
-      <p className="text-md font-medium text-gray-900 mt-1 break-words">
-        {value}
-      </p>
+      <p className="text-md font-medium text-white mt-1 break-words">{value}</p>
     </div>
   </div>
 );
@@ -229,10 +225,10 @@ const EditableField = ({
   editable,
   onChange,
 }) => (
-  <div className="flex items-start space-x-4 bg-gray-100 rounded-xl px-4 py-5 shadow-sm">
-    <div className="text-indigo-600">{icon}</div>
+  <div className="flex items-start space-x-4 bg-[#2b2b3d] rounded-xl px-4 py-5 shadow-sm">
+    <div className="text-purple-400">{icon}</div>
     <div className="w-full">
-      <label className="block text-sm font-semibold text-gray-700">
+      <label className="block text-sm font-semibold text-gray-300">
         {label}
       </label>
       {editable ? (
@@ -241,10 +237,10 @@ const EditableField = ({
           name={name}
           value={value}
           onChange={onChange}
-          className="mt-1 w-full border px-3 py-2 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="mt-1 w-full border px-3 py-2 rounded-md bg-[#1e1e2f] text-white border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500"
         />
       ) : (
-        <p className="text-md font-medium text-gray-900 mt-1 break-words">
+        <p className="text-md font-medium text-white mt-1 break-words">
           {value}
         </p>
       )}

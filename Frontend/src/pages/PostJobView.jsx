@@ -77,15 +77,15 @@ const PostJobForm = () => {
 
   return (
     <motion.div
-      className={`min-h-screen w-full overflow-y-auto px-4 sm:px-6 md:px-10 py-10 bg-gradient-to-br from-[#f0f4ff] to-[#dfe3ee] transition-all duration-300 ${
+      className={`min-h-screen w-full overflow-y-auto px-4 sm:px-6 md:px-10 py-10  text-white transition-all duration-300 ${
         isSidebarOpen ? "md:ml-[280px]" : ""
       }`}
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <div className="max-w-3xl mx-auto bg-white/80 backdrop-blur-md p-8 sm:p-10 rounded-3xl shadow-2xl border border-[#e2e8f0]">
-        <h2 className="text-2xl sm:text-4xl font-extrabold text-center mb-10 text-[#1100D1] tracking-wide drop-shadow">
+      <div className="max-w-3xl mx-auto bg-[#1a1a2e] relative z-10 p-8 sm:p-10 rounded-3xl shadow-2xl border border-gray-700">
+        <h2 className="text-2xl sm:text-4xl font-extrabold text-center mb-10 text-indigo-400 tracking-wide drop-shadow">
           Post a Job
         </h2>
 
@@ -137,7 +137,7 @@ const PostJobForm = () => {
         </div>
 
         <div className="mt-6">
-          <label className="block mb-2 text-[#1100D1] font-semibold">
+          <label className="block mb-2 text-indigo-400 font-semibold">
             Description
           </label>
           <textarea
@@ -145,13 +145,13 @@ const PostJobForm = () => {
             value={formData.description}
             onChange={handleChange}
             placeholder="Describe the task"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-[#1100D1] outline-none transition"
+            className="w-full px-4 py-3 border border-gray-600 rounded-lg bg-[#222338] text-white focus:ring-2 focus:ring-indigo-500 outline-none transition"
             rows={4}
           />
         </div>
 
         {authUser?.role === "tasker" && (
-          <p className="text-red-600 font-medium mt-4 text-center">
+          <p className="text-red-500 font-medium mt-4 text-center">
             ❌ You cannot post a task as a Tasker.
           </p>
         )}
@@ -159,7 +159,7 @@ const PostJobForm = () => {
         <button
           onClick={handleSubmit}
           disabled={loading || authUser?.role === "tasker"}
-          className="mt-8 w-full bg-[#1100D1] text-white py-3 rounded-xl font-bold text-lg shadow-md hover:bg-[#0e00aa] disabled:opacity-50 transition"
+          className="mt-8 w-full bg-indigo-600 text-white py-3 rounded-xl font-bold text-lg shadow-md hover:bg-indigo-700 disabled:opacity-50 transition"
         >
           {loading ? "Posting..." : "Post Job"}
         </button>
@@ -167,7 +167,7 @@ const PostJobForm = () => {
         {responseMsg && (
           <p
             className={`mt-4 text-center text-sm ${
-              responseMsg.startsWith("✅") ? "text-green-600" : "text-red-600"
+              responseMsg.startsWith("✅") ? "text-green-400" : "text-red-500"
             }`}
           >
             {responseMsg}
@@ -178,7 +178,6 @@ const PostJobForm = () => {
   );
 };
 
-// Input field component
 const Field = ({
   label,
   name,
@@ -188,19 +187,18 @@ const Field = ({
   placeholder = "",
 }) => (
   <div>
-    <label className="block mb-2 text-[#1100D1] font-semibold">{label}</label>
+    <label className="block mb-2 text-indigo-400 font-semibold">{label}</label>
     <input
       name={name}
       type={type}
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-[#1100D1] outline-none transition"
+      className="w-full px-4 py-3 border border-gray-600 rounded-lg bg-[#222338] text-white focus:ring-2 focus:ring-indigo-500 outline-none transition"
     />
   </div>
 );
 
-// Select field component
 const SelectField = ({
   label,
   name,
@@ -210,12 +208,12 @@ const SelectField = ({
   defaultOption,
 }) => (
   <div>
-    <label className="block mb-2 text-[#1100D1] font-semibold">{label}</label>
+    <label className="block mb-2 text-indigo-400 font-semibold">{label}</label>
     <select
       name={name}
       value={value}
       onChange={onChange}
-      className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-[#1100D1] outline-none transition"
+      className="w-full px-4 py-3 border border-gray-600 rounded-lg bg-[#222338] text-white focus:ring-2 focus:ring-indigo-500 outline-none transition"
     >
       <option value="" disabled>
         {defaultOption}
@@ -229,17 +227,16 @@ const SelectField = ({
   </div>
 );
 
-// Date input field with icon
 const DateField = ({ label, name, value, onChange }) => (
   <div>
-    <label className="block mb-2 text-[#1100D1] font-semibold">{label}</label>
+    <label className="block mb-2 text-indigo-400 font-semibold">{label}</label>
     <div className="relative">
       <input
         name={name}
         type="date"
         value={value}
         onChange={onChange}
-        className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-100 focus:ring-2 focus:ring-[#1100D1] outline-none transition"
+        className="w-full px-4 py-3 border border-gray-600 rounded-lg bg-[#222338] text-white focus:ring-2 focus:ring-indigo-500 outline-none transition"
       />
       <FaCalendarAlt className="absolute right-3 top-3 text-gray-400 pointer-events-none" />
     </div>

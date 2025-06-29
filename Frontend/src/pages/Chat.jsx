@@ -87,18 +87,19 @@ function Chat() {
 
   return (
     <div
-      className={`flex h-screen w-full bg-gradient-to-r from-[#f5f5ff] to-[#e0e7ff] font-sans
-     ${isOpen ? `ml-72` : `ml-0`}
-    `}
+      className={`flex h-screen w-full text-white font-sans ${
+        isOpen ? `ml-72` : `ml-0`
+      }`}
     >
-      <div className="w-1/4 bg-white shadow-xl border-r p-5 overflow-y-auto">
+      <div className="w-1/4 shadow-xl border-r border-gray-800 p-5 overflow-y-auto">
         <h2
-          className={`text-xl font-bold text-[#1100D1] mb-6
-           ${isOpen ? "mt-0" : "mt-12"}
-          `}
+          className={`text-xl font-bold text-white mb-6 ${
+            isOpen ? "mt-0" : "mt-12"
+          }`}
         >
           Chats
         </h2>
+
         <AnimatePresence>
           {tasks.map((task) => (
             <motion.button
@@ -107,14 +108,14 @@ function Chat() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0 }}
               onClick={() => setReceiverId(task.assignedTo)}
-              className={`w-full text-left p-4 mb-3 rounded-xl transition font-medium shadow-md ${
+              className={`w-full text-left p-4 mb-3 rounded-xl relative z-10 transition font-medium shadow-md ${
                 receiverId === task.assignedTo
-                  ? "bg-indigo-100 border-l-4 border-indigo-600"
-                  : "bg-white"
-              } hover:bg-indigo-50`}
+                  ? "bg-indigo-900 border-l-4 border-indigo-400"
+                  : "bg-[#1e293b]"
+              } hover:bg-[#334155]`}
             >
-              <div className="text-[#1e1b4b]">{task.title}</div>
-              <div className="text-xs text-gray-500">
+              <div className="text-white">{task.title}</div>
+              <div className="text-xs text-gray-400">
                 {task.location.area}, {task.location.city}
               </div>
             </motion.button>
@@ -122,16 +123,16 @@ function Chat() {
         </AnimatePresence>
       </div>
 
-      <div className="flex-1 flex flex-col p-6 bg-[#fdfcff]">
-        <div className="flex-grow overflow-y-auto bg-white p-6 rounded-2xl shadow-lg space-y-3">
-          <h2 className="text-2xl font-bold text-[#1100D1] mb-4">
+      <div className="flex-1 flex flex-col p-6 ">
+        <div className="flex-grow overflow-y-auto  p-6 rounded-2xl shadow-lg space-y-3 border border-gray-700">
+          <h2 className="text-2xl font-bold text-indigo-300 mb-4">
             {receiverId ? "Conversation" : "Select a task to start chat"}
           </h2>
 
           <AnimatePresence>
             {chat.length === 0 && receiverId ? (
               <motion.p
-                className="text-gray-500"
+                className="text-gray-400"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >
@@ -148,7 +149,7 @@ function Chat() {
                     className={`max-w-xs md:max-w-sm px-4 py-2 rounded-xl shadow-md ${
                       isMine
                         ? "bg-indigo-600 text-white self-end ml-auto"
-                        : "bg-gray-200 text-black self-start"
+                        : "bg-slate-700 text-white self-start"
                     }`}
                   >
                     <p className="text-sm">{msg.message}</p>
@@ -166,12 +167,15 @@ function Chat() {
         </div>
 
         {receiverId && (
-          <form onSubmit={sendMessage} className="flex items-center gap-3 mt-4">
+          <form
+            onSubmit={sendMessage}
+            className="flex items-center gap-3 mt-4 relative z-10"
+          >
             <input
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Type your message..."
-              className="flex-grow p-3 border border-gray-300 rounded-xl shadow focus:outline-none focus:ring-2 focus:ring-indigo-300"
+              className="flex-grow p-3 bg-[#1e293b] border border-gray-600 rounded-xl shadow focus:outline-none focus:ring-2 focus:ring-indigo-500 text-white placeholder-gray-400"
             />
             <motion.button
               type="submit"

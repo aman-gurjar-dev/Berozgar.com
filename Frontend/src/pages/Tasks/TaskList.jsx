@@ -21,7 +21,6 @@ const TaskList = () => {
     const handleResize = () => {
       setIsSidebarWide(window.innerWidth >= 768);
     };
-
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -48,7 +47,6 @@ const TaskList = () => {
         setLoading(false);
       }
     };
-
     fetchTasks();
   }, [filters]);
 
@@ -59,19 +57,20 @@ const TaskList = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center">
-        <p className="text-lg font-semibold">Loading tasks...</p>
+      <div className="min-h-screen flex justify-center items-center bg-[#0f0f0f]">
+        <p className="text-lg font-semibold text-white">Loading tasks...</p>
       </div>
     );
   }
 
   return (
     <div
-      className={`min-h-screen w-full bg-[#e8e2fa] py-6 px-4 sm:px-6 md:px-10 lg:px-20 transition-all duration-300
-      ${isSidebarWide ? "md:ml-[270px]" : "ml-0"}`}
+      className={`min-h-screen w-full z-10 text-white py-6 px-4 sm:px-6 md:px-10 lg:px-20 transition-all duration-300 ${
+        isSidebarWide ? "md:ml-[270px]" : "ml-0"
+      }`}
     >
       <motion.h2
-        className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8"
+        className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 text-white"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}

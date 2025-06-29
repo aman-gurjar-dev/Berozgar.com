@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import StepOne from "./StepOne";
 import StepTwo from "./StepTwo";
 import StepThree from "./StepThree";
+import { SparklesCore } from "../../Components/ui/sparkles";
 
 const RegisterWrapper = () => {
   const [step, setStep] = useState(1);
@@ -27,7 +28,16 @@ const RegisterWrapper = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="min-h-screen flex items-center justify-center bg-black">
+      <SparklesCore
+        id="tsparticlesfullpage"
+        background="transparent"
+        minSize={0.6}
+        maxSize={1.4}
+        particleDensity={80}
+        className="absolute inset-0 "
+        particleColor="#FFFFFF"
+      />
       {step === 1 && (
         <StepOne
           nextStep={nextStep}

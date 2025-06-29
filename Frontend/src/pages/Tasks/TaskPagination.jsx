@@ -26,7 +26,7 @@ const TaskPagination = ({ currentPage, totalPages, setCurrentPage }) => {
 
   return (
     <motion.div
-      className="flex justify-center items-center mt-10 space-x-4 text-sm"
+      className="flex justify-center items-center mt-10 space-x-4 text-sm text-white"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -36,8 +36,10 @@ const TaskPagination = ({ currentPage, totalPages, setCurrentPage }) => {
         disabled={currentPage === 1}
         whileHover={{ scale: currentPage === 1 ? 1 : 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={`hover:underline transition ${
-          currentPage === 1 ? "opacity-50 cursor-not-allowed" : ""
+        className={`transition ${
+          currentPage === 1
+            ? "opacity-50 cursor-not-allowed"
+            : "hover:text-[#5d2fff]"
         }`}
       >
         &larr; Previous
@@ -49,8 +51,10 @@ const TaskPagination = ({ currentPage, totalPages, setCurrentPage }) => {
           onClick={() => setCurrentPage(page)}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
-          className={`w-8 h-8 flex items-center justify-center rounded-full cursor-pointer transition ${
-            currentPage === page ? "bg-[#5d2fff] text-white" : "hover:underline"
+          className={`w-8 h-8 flex items-center justify-center rounded-full cursor-pointer transition font-medium ${
+            currentPage === page
+              ? "bg-[#5d2fff] text-white"
+              : "text-gray-300 hover:bg-gray-700"
           }`}
         >
           {page}
@@ -62,8 +66,10 @@ const TaskPagination = ({ currentPage, totalPages, setCurrentPage }) => {
         disabled={currentPage === totalPages}
         whileHover={{ scale: currentPage === totalPages ? 1 : 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={`hover:underline transition ${
-          currentPage === totalPages ? "opacity-50 cursor-not-allowed" : ""
+        className={`transition ${
+          currentPage === totalPages
+            ? "opacity-50 cursor-not-allowed"
+            : "hover:text-[#5d2fff]"
         }`}
       >
         Next &rarr;

@@ -4,9 +4,9 @@ import moment from "moment";
 import { motion } from "framer-motion";
 
 const statusStyles = {
-  pending: "bg-yellow-500 text-white",
+  pending: "bg-yellow-600 text-white",
   approved: "bg-green-600 text-white",
-  rejected: "bg-red-500 text-white",
+  rejected: "bg-red-600 text-white",
 };
 
 const MyApplications = () => {
@@ -44,10 +44,10 @@ const MyApplications = () => {
       <div
         className={`min-h-screen flex justify-center items-center px-6 ${
           isSidebarWide ? "md:ml-[280px]" : ""
-        }`}
+        } bg-black`}
       >
         <div className="w-12 h-12 border-4 border-purple-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="ml-4 text-lg font-semibold text-purple-700">
+        <p className="ml-4 text-lg font-semibold text-white">
           Loading applications...
         </p>
       </div>
@@ -59,9 +59,9 @@ const MyApplications = () => {
       <div
         className={`min-h-screen flex justify-center items-center px-6 ${
           isSidebarWide ? "md:ml-[280px]" : ""
-        }`}
+        } bg-black`}
       >
-        <p className="text-lg font-semibold text-gray-600">
+        <p className="text-lg font-semibold text-gray-300">
           No applications found.
         </p>
       </div>
@@ -72,12 +72,12 @@ const MyApplications = () => {
     <motion.div
       className={`min-h-screen w-full px-4 sm:px-6 md:px-10 py-10 transition-all duration-300 ${
         isSidebarWide ? "md:ml-[280px]" : ""
-      }`}
+      } bg-black text-white`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <h2 className="text-2xl sm:text-3xl font-extrabold text-center mb-10 text-[#1100D1]">
+      <h2 className="text-2xl sm:text-3xl font-extrabold text-center mb-10 text-purple-400">
         My Applications
       </h2>
 
@@ -85,17 +85,17 @@ const MyApplications = () => {
         {applications.map((app) => (
           <motion.div
             key={app._id}
-            className="bg-white p-4 sm:p-6 rounded-xl shadow-md border border-gray-200 space-y-3"
+            className="bg-[#1a1a1a] p-4 sm:p-6 rounded-xl z-10 shadow-md border border-gray-700 space-y-3"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
           >
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
               <div>
-                <h3 className="text-lg sm:text-xl font-bold text-[#1100D1]">
+                <h3 className="text-lg sm:text-xl font-bold text-purple-300">
                   {app.task.title}
                 </h3>
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-400">
                   {app.task.location.area}, {app.task.location.city}
                 </p>
                 <p className="text-sm mt-1">
@@ -116,11 +116,12 @@ const MyApplications = () => {
               </span>
             </div>
 
-            <p className="text-gray-800 text-sm sm:text-base">
-              <span className="font-semibold">Your Message:</span> {app.message}
+            <p className="text-gray-300 text-sm sm:text-base">
+              <span className="font-semibold text-white">Your Message:</span>{" "}
+              {app.message}
             </p>
 
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-500">
               Applied on: {moment(app.createdAt).format("DD MMM YYYY, hh:mm A")}
             </p>
           </motion.div>

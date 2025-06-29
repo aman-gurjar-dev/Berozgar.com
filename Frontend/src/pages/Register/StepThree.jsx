@@ -1,10 +1,11 @@
 import React from "react";
-import axiosInstance from "../../config/axios"; // make sure path is correct
+import axiosInstance from "../../config/axios";
 import { useNavigate } from "react-router-dom";
 import { UseAuth } from "../../context/AuthProvider";
 
 const StepThree = ({ prevStep, formData, updateForm }) => {
   const { authUser, setAuthUser } = UseAuth();
+  const navigate = useNavigate();
 
   const locationOptions = ["Indore", "Dewas", "Ujjain", "Delhi"];
 
@@ -16,8 +17,6 @@ const StepThree = ({ prevStep, formData, updateForm }) => {
       updateForm({ [name]: value });
     }
   };
-
-  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     try {
@@ -34,27 +33,32 @@ const StepThree = ({ prevStep, formData, updateForm }) => {
   };
 
   return (
-    <div className="bg-purple-100 p-8 rounded-xl shadow-md w-full max-w-md">
-      <h2 className="text-xl font-semibold mb-6">Step 3: Profile Info</h2>
+    <div className="bg-zinc-900 p-8 rounded-xl shadow-md w-full max-w-md text-white z-10">
+      <h2 className="text-xl font-semibold mb-6 text-cyan-400">
+        Step 3: Profile Info
+      </h2>
+
       <input
         name="bio"
         placeholder="Bio"
         value={formData.bio}
         onChange={handleChange}
-        className="w-full mb-4 px-4 py-2 rounded bg-white shadow"
+        className="w-full mb-4 px-4 py-2 rounded bg-zinc-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 shadow"
       />
+
       <input
         name="skills"
         placeholder="Skills (e.g., Plumber)"
         value={formData.skills}
         onChange={handleChange}
-        className="w-full mb-4 px-4 py-2 rounded bg-white shadow"
+        className="w-full mb-4 px-4 py-2 rounded bg-zinc-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 shadow"
       />
+
       <select
         name="city"
         value={formData.location.city}
         onChange={handleChange}
-        className="w-full mb-4 px-4 py-2 rounded bg-white shadow"
+        className="w-full mb-4 px-4 py-2 rounded bg-zinc-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 shadow"
       >
         <option value="" disabled>
           Select City
@@ -71,15 +75,19 @@ const StepThree = ({ prevStep, formData, updateForm }) => {
         placeholder="Area"
         value={formData.location.area}
         onChange={handleChange}
-        className="w-full mb-4 px-4 py-2 rounded bg-white shadow"
+        className="w-full mb-4 px-4 py-2 rounded bg-zinc-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 shadow"
       />
+
       <div className="flex justify-between">
-        <button onClick={prevStep} className="px-4 py-2 rounded bg-gray-300">
+        <button
+          onClick={prevStep}
+          className="px-4 py-2 rounded bg-gray-600 hover:bg-gray-500 text-white transition"
+        >
           Back
         </button>
         <button
           onClick={handleSubmit}
-          className="px-4 py-2 rounded bg-purple-700 text-white"
+          className="px-4 py-2 rounded bg-cyan-500 hover:bg-cyan-400 text-black font-semibold transition"
         >
           Submit
         </button>
